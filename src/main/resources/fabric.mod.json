@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "blahaj",
+  "version": "${version}",
+  "name": "Blahaj",
+  "description": "BLAHAJ",
+  "authors": [
+    "Nerjal",
+    "hibi"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/blahaj/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "hibi.blahaj.Blahaj"
+    ]
+  },
+  "mixins": [
+    "blahaj.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.5",
+    "fabric": "*",
+    "minecraft": "1.19"
+  }
+}

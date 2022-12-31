@@ -5,7 +5,7 @@
   "name": "Blahaj",
   "description": "BLAHAJ",
   "authors": [
-    "Nerjal",
+    "Nerjal Nosk",
     "hibi"
   ],
   "contact": {},
@@ -21,8 +21,8 @@
     "blahaj.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.5",
+    "fabricloader": ">=0.14.11",
     "fabric": "*",
-    "minecraft": "1.19"
+    "minecraft": ">=1.19 <1.19.3"
   }
 }

@@ -34,8 +34,14 @@ public class Blahaj implements ModInitializer {
     @Override
     public void onInitialize() {
         Item.Settings settings = new Item.Settings().maxCount(1).group(ItemGroup.MISC).rarity(Rarity.RARE);
-        Item grayShark = Registry.register(Registry.ITEM, KLAPPAR_HAJ_ID,
-                new CuddlyItem(settings, String.format(TOOLTIP_PRE, KLAPPAR_HAJ_ID.getPath())));
+
+        Item grayShark = new CuddlyItem(settings, String.format(TOOLTIP_PRE, KLAPPAR_HAJ_ID.getPath()));
+        Item blueShark = new CuddlyItem(settings, String.format(TOOLTIP_PRE, BLAHAJ_ID));
+        Item bread = new CuddlyItem(settings, null);
+
+        Registry.register(Registry.ITEM, KLAPPAR_HAJ_ID, grayShark);
+        Registry.register(Registry.ITEM, BLAHAJ_ID, blueShark);
+        Registry.register(Registry.ITEM, BREAD_ID, bread);
 
         LootTableEvents.MODIFY.register((resourceManager, lootManager, identifier, builder, lootTableSource) -> {
             if (!lootTableSource.isBuiltin()) {

@@ -35,7 +35,7 @@ public class Blahaj implements ModInitializer {
     public void onInitialize() {
         Item.Settings settings = new Item.Settings().maxCount(1).group(ItemGroup.MISC).rarity(Rarity.RARE);
 
-        Item grayShark = new CuddlyItem(settings, String.format(TOOLTIP_PRE, KLAPPAR_HAJ_ID.getPath()));
+        Item grayShark = new CuddlyItem(settings, String.format(TOOLTIP_PRE, KLAPPAR_HAJ_ID));
         Item blueShark = new CuddlyItem(settings, String.format(TOOLTIP_PRE, BLAHAJ_ID));
         Item bread = new CuddlyItem(settings, null);
 

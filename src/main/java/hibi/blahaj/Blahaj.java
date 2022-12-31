@@ -1,18 +1,17 @@
 package hibi.blahaj;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.VillagerProfession;
 
@@ -33,15 +32,21 @@ public class Blahaj implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Item.Settings settings = new Item.Settings().maxCount(1).group(ItemGroup.MISC).rarity(Rarity.RARE);
+        Item.Settings settings = new Item.Settings().maxCount(1).rarity(Rarity.RARE);
 
-        Item grayShark = new CuddlyItem(settings, String.format(TOOLTIP_PRE, KLAPPAR_HAJ_ID.getPath()));
+        Item grayShark = new CuddlyItem(settings, String.format(TOOLTIP_PRE, KLAPPAR_HAJ_ID));
         Item blueShark = new CuddlyItem(settings, String.format(TOOLTIP_PRE, BLAHAJ_ID));
         Item bread = new CuddlyItem(settings, null);
 
-        Registry.register(Registry.ITEM, KLAPPAR_HAJ_ID, grayShark);
-        Registry.register(Registry.ITEM, BLAHAJ_ID, blueShark);
-        Registry.register(Registry.ITEM, BREAD_ID, bread);
+        Registry.register(Registries.ITEM, KLAPPAR_HAJ_ID, grayShark);
+        Registry.register(Registries.ITEM, BLAHAJ_ID, blueShark);
+        Registry.register(Registries.ITEM, BREAD_ID, bread);
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(c -> {
+            c.add(blueShark);
+            c.add(grayShark);
+            c.add(bread);
+        });
 
         LootTableEvents.MODIFY.register((resourceManager, lootManager, identifier, builder, lootTableSource) -> {
             if (!lootTableSource.isBuiltin()) {

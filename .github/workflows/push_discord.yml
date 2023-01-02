@@ -1,0 +1,14 @@
+name: Discord webhook
+on:
+  [push]
+
+jobs:
+  message:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Discord Webhook
+        uses: VicariousNetwork/vn-discord-webhook@v1.1
+        with:
+          id: ${{ secrets.WEBHOOK_ID }}
+          token: ${{ secrets.WEBHOOK_TOKEN }}

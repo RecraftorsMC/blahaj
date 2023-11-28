@@ -21,8 +21,8 @@
     "blahaj.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.11",
-    "fabric": "*",
+    "fabricloader": ">=0.14.5",
     "minecraft": ">=1.19 <1.19.3"
-  }
+  },
+  "accessWidener": "blahaj.accesswidener"
 }

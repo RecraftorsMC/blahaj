@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
 @Mixin(BipedEntityModel.class)
-public class BipedEntityModelMixin {
+public abstract class BipedEntityModelMixin {
     @Shadow @Final public ModelPart rightArm;
 
     @Shadow @Final public ModelPart leftArm;

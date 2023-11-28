@@ -4,6 +4,9 @@
   "package": "hibi.blahaj.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ItemsMixin",
+    "LootManagerMixin",
+    "MinecraftServerMixin"
   ],
   "client": [
     "AllayEntityMixin",

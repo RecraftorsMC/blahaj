@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ForgingScreenHandler.class)
-public class ForgingScreenHandlerMixin {
+public abstract class ForgingScreenHandlerMixin {
     @Shadow
     protected @Final PlayerEntity player;
 }

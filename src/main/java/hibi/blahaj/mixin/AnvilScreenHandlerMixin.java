@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Environment(EnvType.CLIENT)
 @Mixin(AnvilScreenHandler.class)
-public class AnvilScreenHandlerMixin extends ForgingScreenHandlerMixin {
+public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandlerMixin {
     @Inject(
         method = "updateResult",
         at = {

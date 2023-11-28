@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Environment(EnvType.CLIENT)
 @Mixin(AllayEntity.class)
-public class AllayEntityMixin {
+public abstract class AllayEntityMixin {
 
     @Inject(
         method = "interactMob",

@@ -15,7 +15,8 @@
   "client": [
     "AllayEntityMixin",
     "BipedEntityModelMixin",
-    "PlayerEntityRendererMixin"
+    "PlayerEntityRendererMixin",
+    "TooltipComponentMixin"
   ],
   "injectors": {
     "defaultRequire": 1

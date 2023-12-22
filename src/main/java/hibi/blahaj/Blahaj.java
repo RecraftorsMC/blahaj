@@ -2,9 +2,12 @@ package hibi.blahaj;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
@@ -14,7 +17,10 @@ import java.util.*;
 public class Blahaj implements ModInitializer {
     public static final Identifier BLAHAJ_ID;
     public static final Identifier KLAPPAR_HAJ_ID;
+    public static final Identifier BLAVINGAD_ID;
     public static final Identifier BREAD_ID;
+    public static final Identifier NON_CONTAINABLE_ITEMS_TAG_ID;
+    public static final TagKey<Item> NON_CONTAINABLE_ITEMS;
 
     public static final String MOD_ID;
     public static final String TOOLTIP_PRE;
@@ -25,7 +31,10 @@ public class Blahaj implements ModInitializer {
         TOOLTIP_PRE = String.format("item.%s.%%s.tooltip",MOD_ID);
         BLAHAJ_ID = new Identifier(MOD_ID, "blue_shark");
         KLAPPAR_HAJ_ID = new Identifier(MOD_ID, "gray_shark");
+        BLAVINGAD_ID = new Identifier(MOD_ID, "blue_whale");
         BREAD_ID = new Identifier(MOD_ID, "bread");
+        NON_CONTAINABLE_ITEMS_TAG_ID = new Identifier(MOD_ID, "not_containable");
+        NON_CONTAINABLE_ITEMS = TagKey.of(Registry.ITEM_KEY, NON_CONTAINABLE_ITEMS_TAG_ID);
 
         ITEM_MAP = new HashMap<>();
     }

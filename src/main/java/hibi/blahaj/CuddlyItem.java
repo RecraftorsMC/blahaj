@@ -27,13 +27,14 @@ public class CuddlyItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
         if (this.subtitle != null) {
             tooltip.add(this.subtitle);
         }
         if (stack.hasNbt()) {
             NbtCompound nbt = stack.getNbt();
             String owner = nbt.getString(OWNER_KEY);
-            if(owner.isBlank() || owner.isEmpty()) {
+            if(owner.isEmpty() || owner.isBlank()) {
                 return;
             }
             if (stack.hasCustomName()) {
@@ -46,6 +47,7 @@ public class CuddlyItem extends Item {
 
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
+        super.onCraft(stack, world, player);
         if (player != null) {
             stack.setSubNbt(OWNER_KEY, NbtString.of(player.getName().getString()));
         }

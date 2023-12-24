@@ -1,6 +1,4 @@
-![Back to the Fabric!](.pretty_readme/bttf.png)
-
-This is the BttF port of the [BLAHAJ](https://github.com/Hibiii/Blahaj)
+This is the RecraftorsMC port of the [BLAHAJ](https://github.com/Hibiii/Blahaj)
 mod for [Quilt](https://quiltmc.org)
 
 ![Icon](.pretty_readme/icon.png)

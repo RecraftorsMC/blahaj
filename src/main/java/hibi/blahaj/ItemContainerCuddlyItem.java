@@ -8,11 +8,13 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.tooltip.BundleTooltipComponent;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.item.TooltipData;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ClickType;
 
 import java.util.Optional;
@@ -29,19 +31,26 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         if (clickType != ClickType.RIGHT) return super.onStackClicked(itemStack, slot, clickType, playerEntity);
         ItemStack target = slot.getStack();
         NbtCompound nbt = itemStack.getSubNbt(STORED_ITEM_KEY);
+        if (target.isEmpty()) {
+            if (nbt == null) return super.onStackClicked(itemStack, slot, clickType, playerEntity);
+            ItemStack stored = getStoredStack(itemStack);
+            if (stored == null || !slot.canInsert(stored)) {
+                return super.onStackClicked(itemStack, slot, clickType, playerEntity);
+            }
+            ItemStack e = slot.insertStack(stored);
+            storeItemStack(itemStack, e, e.getCount());
+            this.playRemoveOneSound(playerEntity);
+            return true;
+        }
         if (nbt == null) {
-            if (target.isEmpty() || cannotHold(target)) return super.onStackClicked(itemStack, slot, clickType, playerEntity);
+            if (!canHold(target)) return super.onStackClicked(itemStack, slot, clickType, playerEntity);
             storeItemStack(itemStack, target, target.getCount());
+            playInsertSound(playerEntity);
+            return true;
         } else {
             ItemStack stored = ItemStack.fromNbt(nbt);
             int count = stored.getCount();
-            if (target.isEmpty() && slot.canInsert(stored)) {
-                int m = Math.min(count, slot.getMaxItemCount(stored));
-                slot.insertStack(stored, m);
-                stored.setCount(count-m);
-                if (m <= 0) storeItemStack(itemStack, null, 0);
-                else storeItemStack(itemStack, stored, count-m);
-            } else if (ItemStack.canCombine(target, stored)) {
+            if (ItemStack.canCombine(target, stored)) {
                 int m = stored.getMaxCount();
                 if (count < m) {
                     int v = target.getCount();
@@ -49,26 +58,44 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
                     if (v < 0) return super.onStackClicked(itemStack, slot, clickType, playerEntity);
                     stored.setCount(count+v);
                     storeItemStack(itemStack, stored, count-v);
+                    playInsertSound(playerEntity);
+                    return true;
                 } else return super.onStackClicked(itemStack, slot, clickType, playerEntity);
             }
         }
-        return true;
+        return super.onStackClicked(itemStack, slot, clickType, playerEntity);
     }
 
     @Override
     public boolean onClicked(ItemStack itemStack, ItemStack target, Slot slot, ClickType type, PlayerEntity player, StackReference reference) {
-        boolean b = super.onClicked(itemStack, target, slot, type, player, reference);
-        if (type != ClickType.RIGHT) return b;
+        if (type != ClickType.RIGHT ||! slot.canTakePartial(player)) {
+            return super.onClicked(itemStack, target, slot, type, player, reference);
+        }
         NbtCompound nbt = itemStack.getSubNbt(STORED_ITEM_KEY);
+        if (target.isEmpty()) {
+            ItemStack stored = getStoredStack(itemStack);
+            if (nbt == null) return super.onClicked(itemStack, target, slot, type, player, reference);
+            if (reference.set(stored)) {
+                storeItemStack(itemStack, null, 0);
+                playRemoveOneSound(player);
+                return true;
+            }
+            return super.onClicked(itemStack, target, slot, type, player, reference);
+        }
         if (nbt == null) {
-            if (cannotHold(target)) return b;
+            if (!canHold(target)) return super.onClicked(itemStack, target, slot, type, player, reference);
             int amount = Math.min(target.getCount(), target.getItem().getMaxCount());
             storeItemStack(itemStack, target, amount);
             return true;
         }
         ItemStack stored = ItemStack.fromNbt(nbt);
+        if (!stored.isEmpty() && slot.canInsert(stored)) {
+            slot.insertStack(stored);
+            storeItemStack(itemStack, null, 0);
+            return true;
+        }
         if (!ItemStack.canCombine(stored, target)) {
-            return b;
+            return super.onClicked(itemStack, target, slot, type, player, reference);
         }
         int acc = target.getCount();
         int in = stored.getCount();
@@ -101,8 +128,8 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         return ItemStack.fromNbt(nbt);
     }
 
-    protected boolean cannotHold(ItemStack stack) {
-        return !stack.getItem().canBeNested() || stack.isIn(Blahaj.NON_CONTAINABLE_ITEMS);
+    protected boolean canHold(ItemStack stack) {
+        return !stack.isEmpty() && stack.getItem().canBeNested() && !stack.isIn(Blahaj.NON_CONTAINABLE_ITEMS);
     }
 
     protected static void storeItemStack(ItemStack container, ItemStack target, int q) {
@@ -115,6 +142,14 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
             nbt.put(STORED_ITEM_KEY, e.writeNbt(new NbtCompound()));
             target.setCount(target.getCount()-q);
         }
+    }
+
+    protected void playRemoveOneSound(Entity entity) {
+        entity.playSound(SoundEvents.ITEM_BUNDLE_REMOVE_ONE, 0.8f, 0.8f + entity.getWorld().getRandom().nextFloat() * 0.4f);
+    }
+
+    protected void playInsertSound(Entity entity) {
+        entity.playSound(SoundEvents.ITEM_BUNDLE_INSERT, 0.8f, 0.8f + entity.getWorld().getRandom().nextFloat() * 0.4f);
     }
 
     public static class CuddlyContainerTooltipData implements TooltipData {

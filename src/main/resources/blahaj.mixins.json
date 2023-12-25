@@ -8,8 +8,8 @@
     "ForgingScreenHandlerMixin",
     "ItemGroupsMixin",
     "ItemsMixin",
-    "LootDataKeyMixin",
     "LootManagerMixin",
+    "LootTableMixin",
     "MinecraftServerMixin"
   ],
   "client": [

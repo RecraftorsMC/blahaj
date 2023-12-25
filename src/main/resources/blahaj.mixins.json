@@ -4,15 +4,15 @@
   "package": "hibi.blahaj.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AnvilScreenHandlerMixin",
+    "ForgingScreenHandlerMixin",
     "ItemsMixin",
     "LootManagerMixin",
     "MinecraftServerMixin"
   ],
   "client": [
     "AllayEntityMixin",
-    "AnvilScreenHandlerMixin",
     "BipedEntityModelMixin",
-    "ForgingScreenHandlerMixin",
     "PlayerEntityRendererMixin"
   ],
   "injectors": {

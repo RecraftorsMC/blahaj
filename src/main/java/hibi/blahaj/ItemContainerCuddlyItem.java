@@ -1,16 +1,13 @@
 package hibi.blahaj;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.tooltip.BundleTooltipComponent;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.item.TooltipData;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.ItemStack;
@@ -44,7 +41,7 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
                 stored.setCount(count-m);
                 if (m <= 0) storeItemStack(itemStack, null, 0);
                 else storeItemStack(itemStack, stored, count-m);
-            } else if (canMergeItems(target, stored)) {
+            } else if (ItemStack.canCombine(target, stored)) {
                 int m = stored.getMaxCount();
                 if (count < m) {
                     int v = target.getCount();
@@ -70,7 +67,7 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
             return true;
         }
         ItemStack stored = ItemStack.fromNbt(nbt);
-        if (!canMergeItems(stored, target)) {
+        if (!ItemStack.canCombine(stored, target)) {
             return b;
         }
         int acc = target.getCount();
@@ -120,18 +117,6 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         }
     }
 
-    public static boolean canMergeItems(ItemStack itemStack, ItemStack itemStack2) {
-        if (!itemStack.isOf(itemStack2.getItem())) {
-            return false;
-        } else if (itemStack.getDamage() != itemStack2.getDamage()) {
-            return false;
-        } else if (itemStack.getCount() > itemStack.getMaxCount()) {
-            return false;
-        } else {
-            return ItemStack.areNbtEqual(itemStack, itemStack2);
-        }
-    }
-
     public static class CuddlyContainerTooltipData implements TooltipData {
         private final ItemStack storedStack;
 
@@ -172,45 +157,42 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         }
 
         @Override
-        public void drawItems(TextRenderer textRenderer, int i, int j, MatrixStack matrixStack, ItemRenderer itemRenderer, int k) {
-            this.drawSlot(i+1, j+1, textRenderer, matrixStack, itemRenderer, k);
-            this.drawOutline(i, j, matrixStack, k);
+        public void drawItems(TextRenderer textRenderer, int i, int j, DrawContext drawContext) {
+            this.drawSlot(i+1, j+1, drawContext, textRenderer);
+            this.drawOutline(i, j, drawContext);
         }
 
         // adapted from BundleItem
-        protected void drawSlot(int i, int j, TextRenderer textRenderer, MatrixStack matrixStack, ItemRenderer itemRenderer, int l) {
+        protected void drawSlot(int i, int j, DrawContext drawContext, TextRenderer textRenderer) {
             if (!this.isHolding()) return;
             ItemStack itemStack = this.stack;
-            this.draw(matrixStack, i, j, l, Sprite.SLOT);
-            itemRenderer.renderInGuiWithOverrides(itemStack, i + 1, j + 1, 0);
-            itemRenderer.renderGuiItemOverlay(textRenderer, itemStack, i + 1, j + 1);
-            HandledScreen.drawSlotHighlight(matrixStack, i + 1, j + 1, l);
+            this.draw(drawContext, i, j, Sprite.SLOT);
+            drawContext.drawItem(itemStack, i+1, j+1, 0);
+            drawContext.drawItemInSlot(textRenderer, itemStack, i+1, j+1);
+            HandledScreen.drawSlotHighlight(drawContext, i + 1, j + 1, 0);
         }
 
         // adapted from BundleItem
-        protected void drawOutline(int i, int j, MatrixStack matrixStack, int m) {
-            this.draw(matrixStack, i, j, m, Sprite.BORDER_CORNER_TOP);
-            this.draw(matrixStack, i + 19, j, m, Sprite.BORDER_CORNER_TOP);
-            this.draw(matrixStack, i + 1, j, m, Sprite.BORDER_HORIZONTAL_TOP);
-            this.draw(matrixStack, i + 1, j + 20, m, Sprite.BORDER_HORIZONTAL_BOTTOM);
-            this.draw(matrixStack, i, j + + 1, m, Sprite.BORDER_VERTICAL);
-            this.draw(matrixStack, i + 19, j + 1, m, Sprite.BORDER_VERTICAL);
-            this.draw(matrixStack, i, j + 20, m, Sprite.BORDER_CORNER_BOTTOM);
-            this.draw(matrixStack, i + 19, j + 20, m, Sprite.BORDER_CORNER_BOTTOM);
+        protected void drawOutline(int i, int j, DrawContext drawContext) {
+            this.draw(drawContext, i, j, Sprite.BORDER_CORNER_TOP);
+            this.draw(drawContext, i + 19, j, Sprite.BORDER_CORNER_TOP);
+            this.draw(drawContext, i + 1, j, Sprite.BORDER_HORIZONTAL_TOP);
+            this.draw(drawContext, i + 1, j + 20, Sprite.BORDER_HORIZONTAL_BOTTOM);
+            this.draw(drawContext, i, j + 1, Sprite.BORDER_VERTICAL);
+            this.draw(drawContext, i + 19, j + 1, Sprite.BORDER_VERTICAL);
+            this.draw(drawContext, i, j + 20, Sprite.BORDER_CORNER_BOTTOM);
+            this.draw(drawContext, i + 19, j + 20, Sprite.BORDER_CORNER_BOTTOM);
         }
 
         // adapted from BundleItem
-        protected void draw(MatrixStack matrixStack, int i, int j, int k, Sprite sprite) {
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            RenderSystem.setShaderTexture(0, BundleTooltipComponent.TEXTURE);
-            DrawableHelper.drawTexture(matrixStack, i, j, k, sprite.u, sprite.v, sprite.width, sprite.height, 128, 128);
+        protected void draw(DrawContext drawContext, int i, int j, Sprite sprite) {
+            drawContext.drawTexture(BundleTooltipComponent.TEXTURE, i, j, 0, sprite.u, sprite.v, sprite.width, sprite.height, 128, 128);
         }
 
         // adapted from BundleItem
         @Environment(value= EnvType.CLIENT)
         public enum Sprite {
             SLOT(0, 0, 18, 20),
-            BLOCKED_SLOT(0, 40, 18, 20),
             BORDER_VERTICAL(0, 18, 1, 20),
             BORDER_HORIZONTAL_TOP(0, 20, 18, 1),
             BORDER_HORIZONTAL_BOTTOM(0, 60, 18, 1),
@@ -222,7 +204,7 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
             public final int width;
             public final int height;
 
-            private Sprite(int j, int k, int l, int m) {
+            Sprite(int j, int k, int l, int m) {
                 this.u = j;
                 this.v = k;
                 this.width = l;

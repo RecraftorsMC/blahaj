@@ -5,9 +5,9 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
@@ -34,7 +34,7 @@ public class Blahaj implements ModInitializer {
         BLAVINGAD_ID = new Identifier(MOD_ID, "blue_whale");
         BREAD_ID = new Identifier(MOD_ID, "bread");
         NON_CONTAINABLE_ITEMS_TAG_ID = new Identifier(MOD_ID, "not_containable");
-        NON_CONTAINABLE_ITEMS = TagKey.of(Registry.ITEM_KEY, NON_CONTAINABLE_ITEMS_TAG_ID);
+        NON_CONTAINABLE_ITEMS = TagKey.of(RegistryKeys.ITEM, NON_CONTAINABLE_ITEMS_TAG_ID);
 
         ITEM_MAP = new HashMap<>();
     }

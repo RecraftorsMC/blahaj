@@ -1,8 +1,6 @@
 package hibi.blahaj.mixin;
 
 import hibi.blahaj.CuddlyItem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.screen.AnvilScreenHandler;
@@ -12,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-@Environment(EnvType.CLIENT)
 @Mixin(AnvilScreenHandler.class)
 public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandlerMixin {
     @Inject(

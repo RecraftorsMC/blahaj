@@ -4,6 +4,8 @@
   "package": "hibi.blahaj.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AnvilScreenHandlerMixin",
+    "ForgingScreenHandlerMixin",
     "ItemsMixin",
     "LootManagerMixin",
     "LootTableMixin",
@@ -11,9 +13,7 @@
   ],
   "client": [
     "AllayEntityMixin",
-    "AnvilScreenHandlerMixin",
     "BipedEntityModelMixin",
-    "ForgingScreenHandlerMixin",
     "PlayerEntityRendererMixin",
     "TooltipComponentMixin"
   ],

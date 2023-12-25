@@ -18,13 +18,13 @@ import static hibi.blahaj.Blahaj.*;
 @Mixin(Items.class)
 public abstract class ItemsMixin {
     @Shadow
-    private static Item register(Identifier identifier, Item item) {
+    public static Item register(Identifier identifier, Item item) {
         return null;
     }
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void clinitTailInjector(CallbackInfo ci) {
-        Item.Settings settings = new Item.Settings().maxCount(1).group(ItemGroup.MISC).rarity(Rarity.RARE);
+        Item.Settings settings = new Item.Settings().maxCount(1).rarity(Rarity.RARE);
 
         Blahaj.storeItem(KLAPPAR_HAJ_ID, (CuddlyItem) register(KLAPPAR_HAJ_ID, new CuddlyItem(settings, String.format(TOOLTIP_PRE, KLAPPAR_HAJ_ID))));
         Blahaj.storeItem(BLAHAJ_ID, (CuddlyItem) register(BLAHAJ_ID, new CuddlyItem(settings, String.format(TOOLTIP_PRE, BLAHAJ_ID))));

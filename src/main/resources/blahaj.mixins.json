@@ -6,7 +6,9 @@
   "mixins": [
     "AnvilScreenHandlerMixin",
     "ForgingScreenHandlerMixin",
+    "ItemGroupsMixin",
     "ItemsMixin",
+    "LootDataKeyMixin",
     "LootManagerMixin",
     "MinecraftServerMixin"
   ],

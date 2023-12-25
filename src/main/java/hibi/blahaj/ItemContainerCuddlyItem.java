@@ -28,7 +28,7 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
 
     @Override
     public boolean onStackClicked(ItemStack itemStack, Slot slot, ClickType clickType, PlayerEntity playerEntity) {
-        if (clickType != ClickType.RIGHT) return super.onStackClicked(itemStack, slot, clickType, playerEntity);
+        if (clickType != ClickType.RIGHT) return false;
         ItemStack target = slot.getStack();
         NbtCompound nbt = itemStack.getSubNbt(STORED_ITEM_KEY);
         if (target.isEmpty()) {
@@ -49,18 +49,9 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
             return true;
         } else {
             ItemStack stored = ItemStack.fromNbt(nbt);
-            int count = stored.getCount();
-            if (ItemStack.canCombine(target, stored)) {
-                int m = stored.getMaxCount();
-                if (count < m) {
-                    int v = target.getCount();
-                    while (count + v > m) v -= m;
-                    if (v < 0) return super.onStackClicked(itemStack, slot, clickType, playerEntity);
-                    stored.setCount(count+v);
-                    storeItemStack(itemStack, stored, count-v);
-                    playInsertSound(playerEntity);
-                    return true;
-                } else return super.onStackClicked(itemStack, slot, clickType, playerEntity);
+            if (ItemStack.canCombine(stored, target)) {
+                mergeStored(itemStack, playerEntity, target, stored);
+                return true;
             }
         }
         return super.onStackClicked(itemStack, slot, clickType, playerEntity);
@@ -86,28 +77,14 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
             if (!canHold(target)) return super.onClicked(itemStack, target, slot, type, player, reference);
             int amount = Math.min(target.getCount(), target.getItem().getMaxCount());
             storeItemStack(itemStack, target, amount);
+            playInsertSound(player);
             return true;
         }
         ItemStack stored = ItemStack.fromNbt(nbt);
-        if (!stored.isEmpty() && slot.canInsert(stored)) {
-            slot.insertStack(stored);
-            storeItemStack(itemStack, null, 0);
-            return true;
-        }
         if (!ItemStack.canCombine(stored, target)) {
             return super.onClicked(itemStack, target, slot, type, player, reference);
         }
-        int acc = target.getCount();
-        int in = stored.getCount();
-        int t = acc + in;
-        int m = stored.getMaxCount();
-        if (t > m) {
-            storeItemStack(itemStack, stored, m);
-            target.setCount(acc - (m - in));
-        } else {
-            storeItemStack(itemStack, stored, t);
-            target.setCount(0);
-        }
+        mergeStored(itemStack, player, target, stored);
         return true;
     }
 
@@ -118,6 +95,21 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
             return Optional.empty();
         }
         return Optional.of(new CuddlyContainerTooltipData(stored));
+    }
+
+    protected void mergeStored(ItemStack itemStack, PlayerEntity playerEntity, ItemStack target, ItemStack stored) {
+        int acc = target.getCount();
+        int in = stored.getCount();
+        int t = acc + in;
+        int m = stored.getMaxCount();
+        if (t >= m) {
+            storeItemStack(itemStack, stored, m);
+            target.setCount(acc - (m - in));
+        } else {
+            storeItemStack(itemStack, stored, t);
+            target.setCount(0);
+        }
+        playInsertSound(playerEntity);
     }
 
     protected static ItemStack getStoredStack(ItemStack stack) {

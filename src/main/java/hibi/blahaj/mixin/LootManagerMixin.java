@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Mixin(LootManager.class)
 public abstract class LootManagerMixin {
@@ -44,7 +45,7 @@ public abstract class LootManagerMixin {
             }
             table = this.tables.get(LootTables.VILLAGE_PLAINS_CHEST);
             if (table != null) {
-                blahaj$tableInsert(table, klappar, 1, 44);
+                blahaj$tableInsert(table, klappar, 1, 45);
             }
             table = this.tables.get(LootTables.VILLAGE_TAIGA_HOUSE_CHEST);
             if (table != null) {
@@ -60,11 +61,13 @@ public abstract class LootManagerMixin {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Unique
     private static void blahaj$tableInsert(LootTable table, Item item, int weight, int total) {
         int i = table.pools.length;
         LootPool[] pools = new LootPool[i+1];
         System.arraycopy(table.pools, 0, pools, 0, i);
         pools[i] = LootPool.builder().with(ItemEntry.builder(item).weight(weight)).with(ItemEntry.builder(Items.AIR).weight(total-weight)).build();
+        ((Consumer<LootPool[]>) table).accept(pools);
     }
 }

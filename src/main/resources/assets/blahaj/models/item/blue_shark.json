@@ -1,8 +1,7 @@
 {
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "blahaj:item/shork",
-		"particle": "#0"
+		"0": "blahaj:item/shork"
 	},
 	"elements": [
 		{

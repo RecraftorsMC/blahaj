@@ -7,12 +7,22 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
+    maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
+	maven {
+		name = "Ladysnake Libs"
+		url = 'https://maven.ladysnake.org/releases'
+	}
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation "dev.emi:trinkets:${project.trinkets_version}"
 }
 
 loom {

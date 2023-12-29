@@ -16,7 +16,6 @@ public interface TrinketPlushRenderer extends TrinketRenderer {
                                LivingEntity entity, float limbAngle, float limbDistance, float tickDelta,
                                float animationProgress, float headYaw, float headPitch) {
         if (! (contextModel instanceof BipedEntityModel<? extends LivingEntity> model)) return;
-        //matrices.push();
         switch (slotReference.inventory().getSlotType().getGroup()) {
             case "head" -> blahaj$trinkets$renderHead(stack, slotReference, model, matrices, vertexConsumers, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
             case "chest" -> blahaj$trinkets$renderChest(stack, slotReference, model, matrices, vertexConsumers, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
@@ -24,7 +23,6 @@ public interface TrinketPlushRenderer extends TrinketRenderer {
             case "feet" -> blahaj$trinkets$renderFeet(stack, slotReference, model, matrices, vertexConsumers, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
             case "hand" -> blahak$trinkets$renderHand(stack, slotReference, model, matrices, vertexConsumers, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
         }
-        //matrices.pop();
     }
 
     default void blahaj$trinkets$renderHead(ItemStack stack, SlotReference reference, BipedEntityModel<? extends LivingEntity> model,

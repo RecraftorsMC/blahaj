@@ -32,7 +32,7 @@
     "homepage": "https://modrinth.com/mod/mcr_blahaj",
     "issues": "https://github.com/RecraftorsMC/blahaj/issues"
   },
-  "license": "MIT",
+  "license": "GPL 3.0",
   "icon": "assets/blahaj/icon.png",
   "environment": "*",
   "entrypoints": {

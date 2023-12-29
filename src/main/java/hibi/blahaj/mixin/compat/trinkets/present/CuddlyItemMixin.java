@@ -13,8 +13,12 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Arm;
+import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -76,7 +80,24 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
     private void blahaj$trinkets$renderChest$shoulder(ItemStack stack, BipedEntityModel<? extends LivingEntity> model,
                                                   MatrixStack matrix, VertexConsumerProvider provider, int light,
                                                   LivingEntity entity, float limbAngle, float limbDistance,
-                                                  float tickDelta, float animationProgress, float headYaw, float headPitch) {}
+                                                  float tickDelta, float animationProgress, float headYaw, float headPitch) {
+        ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
+        boolean b = false; // false = render on left shoulder
+        if (entity instanceof PlayerEntity player) {
+            NbtCompound left = player.getShoulderEntityLeft();
+            NbtCompound right = player.getShoulderEntityRight();
+            if (!left.isEmpty() && !right.isEmpty()) return;
+            if (player.getMainArm() == Arm.LEFT) b = right.isEmpty();
+            else b = !left.isEmpty();
+        }
+        matrix.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(180));
+        matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90));
+        float side = b ? .465f : -.275f;
+        // x (depth, + = front), y (vertical, + = up), z (side, + = right)
+        matrix.translate(0f, 0.115f, side);
+        matrix.scale(0.5f, 0.5f, 0.5f);
+        renderer.renderItem(entity, stack, ModelTransformation.Mode.FIXED, false, matrix, provider, entity.getWorld(), light, OverlayTexture.DEFAULT_UV, 0);
+    }
 
     @Unique
     public void blahaj$trinkets$renderLegs(ItemStack stack, SlotReference reference, BipedEntityModel<? extends LivingEntity> model,

@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "hibi.blahaj.mixin",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "hibi.blahaj.mixin.compat.Plugin",
   "mixins": [
     "AnvilScreenHandlerMixin",
     "ForgingScreenHandlerMixin",
@@ -16,7 +17,11 @@
     "AllayEntityMixin",
     "BipedEntityModelMixin",
     "PlayerEntityRendererMixin",
-    "TooltipComponentMixin"
+    "TooltipComponentMixin",
+    "compat.trinkets.present.BlahajMixin",
+    "compat.trinkets.present.CapeFeatureRendererMixin",
+    "compat.trinkets.present.CuddlyItemMixin",
+    "compat.trinkets.present.PlayerEntityModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

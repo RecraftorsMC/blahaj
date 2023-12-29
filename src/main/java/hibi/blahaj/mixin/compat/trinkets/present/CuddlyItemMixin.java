@@ -61,16 +61,14 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
         Objects.requireNonNull(reference);
         String s = reference.inventory().getSlotType().getName();
         switch (s) {
-            case "back", "backpack", "cape" -> blahaj$trinkets$renderChest$back(stack, model, matrix, provider, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
-            case "shoulder", "necklace" -> blahaj$trinkets$renderChest$shoulder(stack, model, matrix, provider, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
+            case "back", "backpack", "cape" -> blahaj$trinkets$renderChest$back(stack, matrix, provider, light, entity);
+            case "shoulder", "necklace" -> blahaj$trinkets$renderChest$shoulder(stack, matrix, provider, light, entity);
         }
     }
 
     @Unique
-    private void blahaj$trinkets$renderChest$back(ItemStack stack, BipedEntityModel<? extends LivingEntity> model,
-                                                  MatrixStack matrix, VertexConsumerProvider provider, int light,
-                                                  LivingEntity entity, float limbAngle, float limbDistance,
-                                                  float tickDelta, float animationProgress, float headYaw, float headPitch) {
+    private void blahaj$trinkets$renderChest$back(ItemStack stack, MatrixStack matrix, VertexConsumerProvider provider,
+                                                  int light, LivingEntity entity) {
         Objects.requireNonNull(matrix);
         ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
         matrix.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90));
@@ -82,10 +80,8 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
     }
 
     @Unique
-    private void blahaj$trinkets$renderChest$shoulder(ItemStack stack, BipedEntityModel<? extends LivingEntity> model,
-                                                      MatrixStack matrix, VertexConsumerProvider provider, int light,
-                                                      LivingEntity entity, float limbAngle, float limbDistance,
-                                                      float tickDelta, float animationProgress, float headYaw, float headPitch) {
+    private void blahaj$trinkets$renderChest$shoulder(ItemStack stack, MatrixStack matrix,
+                                                      VertexConsumerProvider provider, int light, LivingEntity entity) {
         Objects.requireNonNull(matrix);
         ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
         boolean b = false; // false = render on left shoulder

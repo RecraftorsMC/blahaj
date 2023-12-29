@@ -19,7 +19,7 @@ A Minecraft mod that adds the IKEA BLÅHAJ Soft toy shark and a giant bread pill
 
 ## License
 
-This port is licensed under the [MIT](LICENSE) license.
+This port is licensed under the [GPL](LICENSE) license.
 
 The original mod is licensed under the [Unlicense](https://github.com/Hibiii/Blahaj/LICENSE). Feel free to learn from it and incorporate it in your own projects.
 

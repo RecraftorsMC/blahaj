@@ -5,11 +5,34 @@
   "name": "Blahaj",
   "description": "BLAHAJ",
   "authors": [
-    "Nerjal Nosk",
-    "hibi"
+    {
+      "name": "Recraftors MC",
+      "role": "Group",
+      "contact": {
+        "homepage": "https://github.com/RecraftorsMC"
+      }
+    },
+    {
+      "name": "hibi",
+      "role": "Original mod owner",
+      "contact": {
+        "homepage": "https://github.com/Hibiii"
+      }
+    },
+    {
+      "name": "Nerjal Nosk",
+      "role": "maintainer",
+      "contact": {
+        "homepage": "https://github.com/NerjalNosk"
+      }
+    }
   ],
-  "contact": {},
-  "license": "MIT",
+  "contact": {
+    "sources": "https://github.com/RecraftorsMC/blahaj",
+    "homepage": "https://modrinth.com/mod/mcr_blahaj",
+    "issues": "https://github.com/RecraftorsMC/blahaj/issues"
+  },
+  "license": "GPL 3.0",
   "icon": "assets/blahaj/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -22,7 +45,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.14.5",
-    "minecraft": ">=1.19 <1.20-"
+    "minecraft": ">=1.19 <1.19.3-"
   },
   "accessWidener": "blahaj.accesswidener"
 }

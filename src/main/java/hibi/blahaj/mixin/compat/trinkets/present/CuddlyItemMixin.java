@@ -155,7 +155,12 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
     public void blahaj$trinkets$renderFeet(ItemStack stack, SlotReference reference, BipedEntityModel<? extends LivingEntity> model,
                                             MatrixStack matrix, VertexConsumerProvider provider, int light, LivingEntity entity,
                                             float limbAngle, float limbDistance, float tickDelta, float animationProgress,
-                                            float headYaw, float headPitch) {}
+                                            float headYaw, float headPitch) {
+        Objects.requireNonNull(reference);
+        String s = reference.inventory().getSlotType().getName();
+        if (!"shoes".equalsIgnoreCase(s)) return;
+        ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
+    }
 
     @Unique
     public void blahak$trinkets$renderHand(ItemStack stack, SlotReference reference, BipedEntityModel<? extends LivingEntity> model,

@@ -56,6 +56,7 @@ public abstract class CapeFeatureRendererMixin extends FeatureRenderer<AbstractC
         }
         TrinketsApi.getTrinketComponent(player).ifPresent(component -> {
             Map<String, TrinketInventory> chest = component.getInventory().get("chest");
+            if (chest == null) return;
             Optional<TrinketInventory> back = Optional.ofNullable(chest.get("back"));
             if (back.isEmpty()) back = Optional.ofNullable(chest.get("cape"));
             back.ifPresent(inv -> {

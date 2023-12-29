@@ -10,11 +10,11 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -34,15 +34,15 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
         if (!"hat".equalsIgnoreCase(s) && !"crown".equalsIgnoreCase(s)) return;
         ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
         float xFactor = (entity.isInSwimmingPose() || entity.isFallFlying()) ? -45 : headPitch;
-        matrix.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(model.head.roll));
-        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(headYaw));
-        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(xFactor));
+        matrix.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(model.head.roll));
+        matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(headYaw));
+        matrix.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(xFactor));
         if (!entity.isInSneakingPose()) {
             matrix.translate(0f, -.25f, 0f);
         }
-        matrix.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180));
+        matrix.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180));
         matrix.scale(.75f, .75f, .75f);
-        renderer.renderItem(entity, stack, ModelTransformationMode.HEAD, false, matrix, provider, entity.getWorld(), light, OverlayTexture.DEFAULT_UV, 0);
+        renderer.renderItem(entity, stack, ModelTransformation.Mode.HEAD, false, matrix, provider, entity.getWorld(), light, OverlayTexture.DEFAULT_UV, 0);
     }
 
     @Unique
@@ -64,12 +64,12 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
                                                   LivingEntity entity, float limbAngle, float limbDistance,
                                                   float tickDelta, float animationProgress, float headYaw, float headPitch) {
         ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
-        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
-        matrix.multiply(RotationAxis.NEGATIVE_Y.rotationDegrees(90));
+        matrix.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90));
+        matrix.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(90));
         matrix.scale(1.25f, 1.25f, 1.25f);
         // x (vertical, + = up), y (depth, + = back), z (sideways, + = right)
         matrix.translate(-.25f, .3f, .175f);
-        renderer.renderItem(entity, stack, ModelTransformationMode.FIXED, false, matrix, provider, entity.getWorld(), light, OverlayTexture.DEFAULT_UV, 0);
+        renderer.renderItem(entity, stack, ModelTransformation.Mode.FIXED, false, matrix, provider, entity.getWorld(), light, OverlayTexture.DEFAULT_UV, 0);
     }
 
     @Unique

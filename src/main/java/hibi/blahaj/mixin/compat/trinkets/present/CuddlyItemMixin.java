@@ -114,6 +114,8 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
         String s = reference.inventory().getSlotType().getName();
         if ("belt".equals(s)) {
             blahaj$trinkets$renderLegs$belt(stack, matrix, provider, light, entity);
+        } else if ("thighs".equals(s)) {
+            blahaj$trinkets$renderLegs$thighs(stack, matrix, provider, light, entity);
         }
     }
 
@@ -128,7 +130,7 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
         matrix.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(180));
         matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90));
         // x (depth, + = front), y (vertical, + = up), z (side, + = right)
-        matrix.translate(0f, -0.9f, side);
+        matrix.translate(0f, -0.75f, side);
         matrix.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(r));
         matrix.scale(0.5f, 0.5f, 0.5f);
         renderer.renderItem(entity, stack, ModelTransformation.Mode.FIXED, false, matrix, provider, entity.getWorld(), light, OverlayTexture.DEFAULT_UV, 0);

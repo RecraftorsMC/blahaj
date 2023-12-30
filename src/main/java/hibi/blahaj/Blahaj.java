@@ -17,6 +17,7 @@ import java.util.*;
 public class Blahaj implements ModInitializer {
     public static final Identifier BLAHAJ_ID;
     public static final Identifier KLAPPAR_HAJ_ID;
+    public static final Identifier BEYOU_BLAHAJ_ID;
     public static final Identifier BLAVINGAD_ID;
     public static final Identifier BREAD_ID;
     public static final Identifier NON_CONTAINABLE_ITEMS_TAG_ID;
@@ -31,6 +32,7 @@ public class Blahaj implements ModInitializer {
         TOOLTIP_PRE = String.format("item.%s.%%s.tooltip",MOD_ID);
         BLAHAJ_ID = new Identifier(MOD_ID, "blue_shark");
         KLAPPAR_HAJ_ID = new Identifier(MOD_ID, "gray_shark");
+        BEYOU_BLAHAJ_ID = new Identifier(MOD_ID, "trans_shark");
         BLAVINGAD_ID = new Identifier(MOD_ID, "blue_whale");
         BREAD_ID = new Identifier(MOD_ID, "bread");
         NON_CONTAINABLE_ITEMS_TAG_ID = new Identifier(MOD_ID, "not_containable");
@@ -59,16 +61,31 @@ public class Blahaj implements ModInitializer {
     }
 
     public static void injectTrades() {
+        Optional<CuddlyItem> blahajSupplier = itemSupplier(BLAHAJ_ID);
         Optional<CuddlyItem> klapparSupplier = itemSupplier(KLAPPAR_HAJ_ID);
-        if (klapparSupplier.isEmpty()) return;
-        TradeOffers.PROFESSION_TO_LEVELED_TRADE.computeIfAbsent(VillagerProfession.SHEPHERD, key -> new Int2ObjectLinkedOpenHashMap<>()).compute(5, (i, v) -> {
-            if (v == null) {
-                v = new TradeOffers.Factory[1];
-            } else {
-                v = Arrays.copyOf(v, v.length+1);
-            }
-            v[v.length-1] = (entity, random) -> new TradeOffer(new ItemStack(Items.EMERALD, 15), new ItemStack(klapparSupplier.get()), 2,30, 0.1f);
-            return v;
+        Optional<CuddlyItem> beyouSupplier = itemSupplier(BEYOU_BLAHAJ_ID);
+        klapparSupplier.ifPresent(klappar -> {
+            TradeOffers.PROFESSION_TO_LEVELED_TRADE.computeIfAbsent(VillagerProfession.SHEPHERD, key -> new Int2ObjectLinkedOpenHashMap<>()).compute(5, (i, v) -> {
+                if (v == null) {
+                    v = new TradeOffers.Factory[1];
+                } else {
+                    v = Arrays.copyOf(v, v.length +1);
+                }
+                v[v.length-1] = (entity, random) -> new TradeOffer(new ItemStack(Items.EMERALD, 15), new ItemStack(klappar), 2, 30, 0.1f);
+                return v;
+            });
+        });
+        beyouSupplier.ifPresent(beyou -> {
+            if (blahajSupplier.isEmpty()) return;
+            TradeOffers.PROFESSION_TO_LEVELED_TRADE.computeIfAbsent(VillagerProfession.LEATHERWORKER, key -> new Int2ObjectLinkedOpenHashMap<>()).compute(4, (i, v) -> {
+                if (v == null) {
+                    v = new TradeOffers.Factory[1];
+                } else {
+                    v = Arrays.copyOf(v, v.length+1);
+                }
+                v[v.length-1] = (entity, random) -> new TradeOffer(new ItemStack(blahajSupplier.get(), 1), new ItemStack(Items.EMERALD, 20), new ItemStack(beyou), 2, 20, 0.1f);
+                return v;
+            });
         });
     }
 }

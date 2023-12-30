@@ -97,6 +97,11 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         return Optional.of(new CuddlyContainerTooltipData(stored));
     }
 
+    @Override
+    public boolean canBeNested() {
+        return false;
+    }
+
     protected void mergeStored(ItemStack itemStack, PlayerEntity playerEntity, ItemStack target, ItemStack stored) {
         int acc = target.getCount();
         int in = stored.getCount();

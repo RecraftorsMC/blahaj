@@ -11,7 +11,11 @@
     "LivingEntityMixin",
     "LootManagerMixin",
     "LootTableMixin",
-    "MinecraftServerMixin"
+    "MinecraftServerMixin",
+    "compat.travelersbackpack.present.ModBlockEntityTypesMixin",
+    "compat.travelersbackpack.present.ModBlocksMixin",
+    "compat.travelersbackpack.present.ModItemsMixin",
+    "compat.travelersbackpack.present.ResourceUtilsMixin"
   ],
   "client": [
     "AllayEntityMixin",

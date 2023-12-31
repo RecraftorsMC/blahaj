@@ -1,0 +1,14 @@
+{
+  "type": "travelersbackpack:backpack_shapeless",
+  "ingredients": [
+    {
+      "item": "travelersbackpack:standard"
+    },
+    {
+      "item": "blahaj:blue_whale"
+    }
+  ],
+  "result": {
+    "item": "blahaj:blahaj_backpack"
+  }
+}

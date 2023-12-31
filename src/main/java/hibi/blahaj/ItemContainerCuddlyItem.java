@@ -102,6 +102,23 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         return false;
     }
 
+    public ItemStack getContainedStack(ItemStack stack) {
+        return getStoredStack(stack);
+    }
+
+    public Optional<ItemStack> extract(ItemStack stack) {
+        NbtCompound nbt = stack.getNbt();
+        if (nbt == null) {
+            return Optional.empty();
+        }
+        nbt = stack.getSubNbt(STORED_ITEM_KEY);
+        if (nbt == null) {
+            return Optional.empty();
+        }
+        stack.removeSubNbt(STORED_ITEM_KEY);
+        return Optional.ofNullable(ItemStack.fromNbt(nbt));
+    }
+
     protected void mergeStored(ItemStack itemStack, PlayerEntity playerEntity, ItemStack target, ItemStack stored) {
         int acc = target.getCount();
         int in = stored.getCount();

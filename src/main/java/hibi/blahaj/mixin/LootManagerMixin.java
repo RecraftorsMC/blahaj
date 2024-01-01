@@ -1,5 +1,6 @@
 package hibi.blahaj.mixin;
 
+import com.google.common.collect.ImmutableList;
 import hibi.blahaj.Blahaj;
 import hibi.blahaj.CuddlyItem;
 import net.minecraft.item.Item;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -43,10 +45,12 @@ public abstract class LootManagerMixin {
     @SuppressWarnings("unchecked")
     @Unique
     private static void blahaj$tableInsert(LootTable table, Item item, int weight, int total) {
-        int i = table.pools.length;
-        LootPool[] pools = new LootPool[i+1];
-        System.arraycopy(table.pools, 0, pools, 0, i);
-        pools[i] = LootPool.builder().with(ItemEntry.builder(item).weight(weight)).with(ItemEntry.builder(Items.AIR).weight(total-weight)).build();
-        ((Consumer<LootPool[]>) table).accept(pools);
+        LootPool newPool = LootPool.builder().with(ItemEntry.builder(item).weight(weight)).with(ItemEntry.builder(Items.AIR).weight(total-weight)).build();
+        int i = table.pools.size();
+        LootPool[] poolArray = new LootPool[i+1];
+        System.arraycopy(table.pools.toArray(poolArray), 0, poolArray, 0, i);
+        poolArray[i] = newPool;
+        List<LootPool> pools = ImmutableList.copyOf(poolArray);
+        ((Consumer<List<LootPool>>) table).accept(pools);
     }
 }

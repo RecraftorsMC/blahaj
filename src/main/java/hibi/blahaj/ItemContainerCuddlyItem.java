@@ -5,7 +5,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.tooltip.BundleTooltipComponent;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.Entity;
@@ -16,11 +15,13 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ClickType;
+import net.minecraft.util.Identifier;
 
 import java.util.Optional;
 
 public class ItemContainerCuddlyItem extends CuddlyItem {
     public static final String STORED_ITEM_KEY = "Item";
+    public static final Identifier SPRITE_TEXTURE = new Identifier("container/bundle/slot");
 
     public ItemContainerCuddlyItem(Settings settings, String subtitle) {
         super(settings, subtitle);
@@ -235,7 +236,7 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
 
         // adapted from BundleItem
         protected void draw(DrawContext drawContext, int i, int j, Sprite sprite) {
-            drawContext.drawTexture(BundleTooltipComponent.TEXTURE, i, j, 0, sprite.u, sprite.v, sprite.width, sprite.height, 128, 128);
+            drawContext.drawTexture(SPRITE_TEXTURE, i, j, 0, sprite.u, sprite.v, sprite.width, sprite.height, 128, 128);
         }
 
         // adapted from BundleItem

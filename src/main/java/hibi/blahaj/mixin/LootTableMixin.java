@@ -7,15 +7,18 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 
 @Mixin(LootTable.class)
-public abstract class LootTableMixin implements Consumer<LootPool[]> {
+public abstract class LootTableMixin implements Consumer<List<LootPool>> {
+
     @Mutable
-    @Shadow @Final public LootPool[] pools;
+    @Shadow @Final public List<LootPool> pools;
 
     @Override
-    public void accept(LootPool[] lootPools) {
+    public void accept(List<LootPool> lootPools) {
         this.pools = lootPools;
     }
 }

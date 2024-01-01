@@ -14,6 +14,9 @@ public final class Plugin implements IMixinConfigPlugin {
     private static final String COMPAT_PRESENT_KEY = "present";
     private static final String COMPAT_ABSENT_KEY = "absent";
     private static final String COMPAT_ANY_KEY = "any";
+    private static final String COMPAT_AND_KEY = "and";
+    private static final String COMPAT_XOR_KEY = "and_not";
+
 
     static {
         // Shorthand getting the plugin package to ensure not making trouble with other mixins
@@ -40,9 +43,19 @@ public final class Plugin implements IMixinConfigPlugin {
         // the id of the target mod
         String compatModId = mixinPath[COMPAT_PACKAGE_LENGTH];
         // Apply accordingly of the mod's presence, absence, etc
-        if (mixinPath[COMPAT_PACKAGE_LENGTH+1].equals(COMPAT_PRESENT_KEY)) return FabricLoader.getInstance().isModLoaded(compatModId);
-        else if (mixinPath[COMPAT_PACKAGE_LENGTH+1].equals(COMPAT_ABSENT_KEY)) return !FabricLoader.getInstance().isModLoaded(compatModId);
-        else return (mixinPath[COMPAT_PACKAGE_LENGTH+1].equals(COMPAT_ANY_KEY));
+        return switch (mixinPath[COMPAT_PACKAGE_LENGTH + 1]) {
+            case COMPAT_PRESENT_KEY -> FabricLoader.getInstance().isModLoaded(compatModId);
+            case COMPAT_ABSENT_KEY ->  !FabricLoader.getInstance().isModLoaded(compatModId);
+            case COMPAT_AND_KEY -> {
+                String compatModId2 = mixinPath[COMPAT_PACKAGE_LENGTH + 2];
+                yield FabricLoader.getInstance().isModLoaded(compatModId) && FabricLoader.getInstance().isModLoaded(compatModId2);
+            }
+            case COMPAT_XOR_KEY -> {
+                String compatModId2 = mixinPath[COMPAT_PACKAGE_LENGTH + 2];
+                yield FabricLoader.getInstance().isModLoaded(compatModId) && !FabricLoader.getInstance().isModLoaded(compatModId2);
+            }
+            default -> (mixinPath[COMPAT_PACKAGE_LENGTH + 1].equals(COMPAT_ANY_KEY));
+        };
     }
 
     @Override

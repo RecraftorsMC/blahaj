@@ -54,5 +54,8 @@
     "fabricloader": ">=0.14.5",
     "minecraft": ">=1.19 <1.19.3-"
   },
+  "breaks": {
+    "trinkets": ">=3.5.0"
+  },
   "accessWidener": "blahaj.accesswidener"
 }

@@ -52,6 +52,10 @@ public class Blahaj implements ModInitializer {
         ITEM_MAP.put(id, item);
     }
 
+    public static Collection<CuddlyItem> getItems() {
+        return ITEM_MAP.values();
+    }
+
     public static Optional<CuddlyItem> itemSupplier(Identifier id) {
         return Optional.ofNullable(ITEM_MAP.get(id));
     }

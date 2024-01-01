@@ -55,5 +55,8 @@
     "minecraft": ">=1.20",
     "unruled_api": "*"
   },
+  "breaks": {
+    "trinkets": ">=3.5.0"
+  },
   "accessWidener": "blahaj.accesswidener"
 }

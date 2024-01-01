@@ -142,7 +142,7 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
         Objects.requireNonNull(matrix);
         ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
         boolean b = blahaj$trinkets$getMainHand(entity, false);
-        if (blahaj$trinkets$hasCuddlyInSlot(entity, "legs", "belt")) b = !b;
+        if (TrinketPlushRenderer.hasCuddlyInSlot(entity, "legs", "belt")) b = !b;
         float side = b ? -.355f : .355f;
         float r = b ? -90 : 90;
         matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180));
@@ -184,27 +184,5 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
             return player.getMainArm() == Arm.LEFT;
         }
         return fallback;
-    }
-
-    @Unique
-    private static boolean blahaj$trinkets$hasCuddlyInSlot(LivingEntity entity, String group, String... names) {
-        Optional<TrinketComponent> optionalComponent = TrinketsApi.getTrinketComponent(entity);
-        if (optionalComponent.isEmpty()) return false;
-        TrinketComponent component = optionalComponent.get();
-        Map<String, TrinketInventory> groupMap = component.getInventory().get(group);
-        if (groupMap == null) return false;
-        Optional<TrinketInventory> optionalInventory = Optional.empty();
-        for (String name : names) {
-            optionalInventory = Optional.ofNullable(groupMap.get(name));
-            if (optionalInventory.isPresent()) {
-                break;
-            }
-        }
-        if (optionalInventory.isEmpty()) return false;
-        TrinketInventory inventory = optionalInventory.get();
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.getStack(i).getItem() instanceof CuddlyItem) return true;
-        }
-        return false;
     }
 }

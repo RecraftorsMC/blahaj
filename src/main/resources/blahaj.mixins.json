@@ -22,6 +22,7 @@
     "BipedEntityModelMixin",
     "PlayerEntityRendererMixin",
     "TooltipComponentMixin",
+    "compat.travelersbackpack.and.trinkets.present.client.TravelersBackpackWearableModelMixin",
     "compat.trinkets.present.BlahajMixin",
     "compat.trinkets.present.CapeFeatureRendererMixin",
     "compat.trinkets.present.CuddlyItemMixin",

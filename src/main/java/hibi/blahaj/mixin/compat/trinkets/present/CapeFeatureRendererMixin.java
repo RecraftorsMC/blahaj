@@ -2,10 +2,9 @@ package hibi.blahaj.mixin.compat.trinkets.present;
 
 import dev.emi.trinkets.api.SlotGroup;
 import dev.emi.trinkets.api.SlotType;
-import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
-import hibi.blahaj.CuddlyItem;
 import hibi.blahaj.compat.BooleanConsumer;
+import hibi.blahaj.compat.TrinketPlushRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -54,24 +53,10 @@ public abstract class CapeFeatureRendererMixin extends FeatureRenderer<AbstractC
         if (type == null) {
             return;
         }
-        TrinketsApi.getTrinketComponent(player).ifPresent(component -> {
-            Map<String, TrinketInventory> chest = component.getInventory().get("chest");
-            if (chest == null) return;
-            Optional<TrinketInventory> back = Optional.ofNullable(chest.get("back"));
-            if (back.isEmpty()) back = Optional.ofNullable(chest.get("cape"));
-            back.ifPresent(inv -> {
-                boolean b = false;
-                for (int t = 0; t < inv.size(); t++) {
-                    if (inv.getStack(t).getItem() instanceof CuddlyItem) {
-                        b = true;
-                        break;
-                    }
-                }
-                ((BooleanConsumer) this.getContextModel()).blahaj$consume(b);
-                if (b) {
-                    ci.cancel();
-                }
-            });
-        });
+        boolean b = TrinketPlushRenderer.hasCuddlyInSlot(player, "chest", "back", "cape");
+        ((BooleanConsumer) this.getContextModel()).blahaj$consume(b);
+        if (b) {
+            ci.cancel();
+        }
     }
 }

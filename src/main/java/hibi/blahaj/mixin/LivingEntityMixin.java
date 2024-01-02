@@ -28,8 +28,6 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
         super(entityType, world);
     }
 
-    @Shadow public abstract ItemStack getStackInHand(Hand hand);
-
     @Shadow public abstract void setHealth(float f);
 
     @Shadow public abstract boolean clearStatusEffects();

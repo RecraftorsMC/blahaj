@@ -21,7 +21,9 @@ public class Blahaj implements ModInitializer {
     public static final Identifier BLAVINGAD_ID;
     public static final Identifier BREAD_ID;
     public static final Identifier NON_CONTAINABLE_ITEMS_TAG_ID;
+    public static final Identifier BLAVINGAD_USABLE_ITEMS_ID;
     public static final TagKey<Item> NON_CONTAINABLE_ITEMS;
+    public static final TagKey<Item> BLAVINGAD_USABLE_ITEMS;
 
     public static final String MOD_ID;
     public static final String TOOLTIP_PRE;
@@ -36,7 +38,9 @@ public class Blahaj implements ModInitializer {
         BLAVINGAD_ID = new Identifier(MOD_ID, "blue_whale");
         BREAD_ID = new Identifier(MOD_ID, "bread");
         NON_CONTAINABLE_ITEMS_TAG_ID = new Identifier(MOD_ID, "not_containable");
+        BLAVINGAD_USABLE_ITEMS_ID = new Identifier(MOD_ID, "blavingad_usable");
         NON_CONTAINABLE_ITEMS = TagKey.of(Registry.ITEM_KEY, NON_CONTAINABLE_ITEMS_TAG_ID);
+        BLAVINGAD_USABLE_ITEMS = TagKey.of(Registry.ITEM_KEY, BLAVINGAD_USABLE_ITEMS_ID);
 
         ITEM_MAP = new HashMap<>();
     }
@@ -64,17 +68,18 @@ public class Blahaj implements ModInitializer {
         Optional<CuddlyItem> blahajSupplier = itemSupplier(BLAHAJ_ID);
         Optional<CuddlyItem> klapparSupplier = itemSupplier(KLAPPAR_HAJ_ID);
         Optional<CuddlyItem> beyouSupplier = itemSupplier(BEYOU_BLAHAJ_ID);
-        klapparSupplier.ifPresent(klappar -> {
-            TradeOffers.PROFESSION_TO_LEVELED_TRADE.computeIfAbsent(VillagerProfession.SHEPHERD, key -> new Int2ObjectLinkedOpenHashMap<>()).compute(5, (i, v) -> {
-                if (v == null) {
-                    v = new TradeOffers.Factory[1];
-                } else {
-                    v = Arrays.copyOf(v, v.length +1);
-                }
-                v[v.length-1] = (entity, random) -> new TradeOffer(new ItemStack(Items.EMERALD, 15), new ItemStack(klappar), 2, 30, 0.1f);
-                return v;
-            });
-        });
+        klapparSupplier.ifPresent(
+                klappar -> TradeOffers.PROFESSION_TO_LEVELED_TRADE.computeIfAbsent(VillagerProfession.SHEPHERD,
+                        key -> new Int2ObjectLinkedOpenHashMap<>()).compute(5, (i, v) -> {
+                            if (v == null) {
+                                v = new TradeOffers.Factory[1];
+                            } else {
+                                v = Arrays.copyOf(v, v.length +1);
+                            }
+                            v[v.length-1] = (entity, random) -> new TradeOffer(new ItemStack(Items.EMERALD, 15), new ItemStack(klappar), 2, 30, 0.1f);
+                            return v;
+                        })
+        );
         beyouSupplier.ifPresent(beyou -> {
             if (blahajSupplier.isEmpty()) return;
             TradeOffers.PROFESSION_TO_LEVELED_TRADE.computeIfAbsent(VillagerProfession.LEATHERWORKER, key -> new Int2ObjectLinkedOpenHashMap<>()).compute(4, (i, v) -> {

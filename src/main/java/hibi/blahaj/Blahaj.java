@@ -21,7 +21,9 @@ public class Blahaj implements ModInitializer {
     public static final Identifier BLAVINGAD_ID;
     public static final Identifier BREAD_ID;
     public static final Identifier NON_CONTAINABLE_ITEMS_TAG_ID;
+    public static final Identifier BLAVINGAD_USABLE_ITEMS_ID;
     public static final TagKey<Item> NON_CONTAINABLE_ITEMS;
+    public static final TagKey<Item> BLAVINGAD_USABLE_ITEMS;
 
     public static final String MOD_ID;
     public static final String TOOLTIP_PRE;
@@ -36,7 +38,9 @@ public class Blahaj implements ModInitializer {
         BLAVINGAD_ID = new Identifier(MOD_ID, "blue_whale");
         BREAD_ID = new Identifier(MOD_ID, "bread");
         NON_CONTAINABLE_ITEMS_TAG_ID = new Identifier(MOD_ID, "not_containable");
+        BLAVINGAD_USABLE_ITEMS_ID = new Identifier(MOD_ID, "blavingad_usable");
         NON_CONTAINABLE_ITEMS = TagKey.of(RegistryKeys.ITEM, NON_CONTAINABLE_ITEMS_TAG_ID);
+        BLAVINGAD_USABLE_ITEMS = TagKey.of(RegistryKeys.ITEM, BLAVINGAD_USABLE_ITEMS_ID);
 
         ITEM_MAP = new HashMap<>();
     }

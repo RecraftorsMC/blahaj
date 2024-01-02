@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
@@ -36,6 +37,8 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
 
     @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot var1);
 
+    @Shadow public abstract ItemStack getStackInHand(Hand hand);
+
     @Override
     public ItemStack blahaj$stackInHandFailSafe(Hand hand) {
         if (hand == Hand.MAIN_HAND) {
@@ -45,6 +48,23 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
             return this.getEquippedStack(EquipmentSlot.OFFHAND);
         }
         throw new IllegalArgumentException("Invalid hand " + hand);
+    }
+
+    @Inject(method = "getStackInHand", at = @At("RETURN"), cancellable = true)
+    private void onGetStackInHandReturnInjector(Hand hand, CallbackInfoReturnable<ItemStack> cir) {
+        ItemStack stack = cir.getReturnValue();
+        if (stack.getItem() instanceof ItemContainerCuddlyItem) {
+            cir.setReturnValue(new ItemContainerCuddlyItem.ContainerItemStack(stack));
+        }
+    }
+
+    @Inject(method = "setStackInHand", at = @At("HEAD"), cancellable = true)
+    private void onSetStackInHandHeadInjector(Hand hand, ItemStack itemStack, CallbackInfo ci) {
+        ItemStack stack = getStackInHand(hand);
+        if (stack instanceof ItemContainerCuddlyItem.ContainerItemStack containerStack) {
+            containerStack.tryInsertOrDrop((LivingEntity) ((Object) this), itemStack);
+            ci.cancel();
+        }
     }
 
     @Inject(method = "tryUseTotem", at = @At("TAIL"), cancellable = true)

@@ -1,9 +1,11 @@
 package hibi.blahaj.mixin;
 
+import hibi.blahaj.HandItemStackProvider;
 import hibi.blahaj.ItemContainerCuddlyItem;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -21,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity {
+public abstract class LivingEntityMixin extends Entity implements HandItemStackProvider {
     LivingEntityMixin(EntityType<?> entityType, World world) {
         super(entityType, world);
     }
@@ -34,13 +36,26 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow public abstract boolean addStatusEffect(StatusEffectInstance statusEffectInstance);
 
+    @Shadow public abstract ItemStack getEquippedStack(EquipmentSlot var1);
+
+    @Override
+    public ItemStack blahaj$stackInHandFailSafe(Hand hand) {
+        if (hand == Hand.MAIN_HAND) {
+            return this.getEquippedStack(EquipmentSlot.MAINHAND);
+        }
+        if (hand == Hand.OFF_HAND) {
+            return this.getEquippedStack(EquipmentSlot.OFFHAND);
+        }
+        throw new IllegalArgumentException("Invalid hand " + hand);
+    }
+
     @Inject(method = "tryUseTotem", at = @At("TAIL"), cancellable = true)
     private void tryUseTotemTryUseContainedTotemInjector(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValueZ()) return;
         ItemStack stack = null;
         ItemStack stack2 = null;
         for (Hand hand : Hand.values()) {
-            ItemStack handStack = getStackInHand(hand);
+            ItemStack handStack = blahaj$stackInHandFailSafe(hand);
             if (!(handStack.getItem() instanceof ItemContainerCuddlyItem cuddly)) continue;
             ItemStack contained = cuddly.getContainedStack(handStack);
             if (contained.isOf(Items.TOTEM_OF_UNDYING)) {

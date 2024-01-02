@@ -14,6 +14,7 @@
     "LootManagerMixin",
     "LootTableMixin",
     "MinecraftServerMixin",
+    "ThrowablePotionItemMixin",
     "compat.travelersbackpack.present.ModBlockEntityTypesMixin",
     "compat.travelersbackpack.present.ModBlocksMixin",
     "compat.travelersbackpack.present.ModItemsMixin",

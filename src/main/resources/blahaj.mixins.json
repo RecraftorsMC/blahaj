@@ -8,6 +8,7 @@
     "AnvilScreenHandlerMixin",
     "ForgingScreenHandlerMixin",
     "ItemsMixin",
+    "ItemStackMixin",
     "LivingEntityMixin",
     "LootManagerMixin",
     "LootTableMixin",

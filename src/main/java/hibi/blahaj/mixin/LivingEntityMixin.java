@@ -1,5 +1,6 @@
 package hibi.blahaj.mixin;
 
+import hibi.blahaj.Blahaj;
 import hibi.blahaj.HandItemStackProvider;
 import hibi.blahaj.ItemContainerCuddlyItem;
 import net.minecraft.advancement.criterion.Criteria;
@@ -53,16 +54,21 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
     @Inject(method = "getStackInHand", at = @At("RETURN"), cancellable = true)
     private void onGetStackInHandReturnInjector(Hand hand, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack stack = cir.getReturnValue();
-        if (stack.getItem() instanceof ItemContainerCuddlyItem) {
-            cir.setReturnValue(new ItemContainerCuddlyItem.ContainerItemStack(stack));
+        if (stack.getItem() instanceof ItemContainerCuddlyItem cuddly) {
+            Blahaj.LOGGER.warn("stack validated as container of type {}, is content valid?", cuddly.getTranslationKey());
+            ItemStack content = cuddly.getContainedStack(stack);
+            if (content.isIn(cuddly.usableContainedItemTag())) {
+                Blahaj.LOGGER.warn("content valid, creating contained itemstack");
+                cir.setReturnValue(new ItemContainerCuddlyItem.ContainedItemStack(stack, content));
+            }
         }
     }
 
     @Inject(method = "setStackInHand", at = @At("HEAD"), cancellable = true)
     private void onSetStackInHandHeadInjector(Hand hand, ItemStack itemStack, CallbackInfo ci) {
         ItemStack stack = getStackInHand(hand);
-        if (stack instanceof ItemContainerCuddlyItem.ContainerItemStack containerStack) {
-            containerStack.tryInsertOrDrop((LivingEntity) ((Object) this), itemStack);
+        if (stack instanceof ItemContainerCuddlyItem.ContainedItemStack containedStack) {
+            containedStack.tryInsertOrDrop((LivingEntity) ((Object) this), itemStack);
             ci.cancel();
         }
     }

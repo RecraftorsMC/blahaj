@@ -326,44 +326,40 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         }
     }
 
-    public static final class ContainerItemStack extends ItemStack implements ItemStackProvider {
+    public static final class ContainedItemStack extends ItemStack implements ItemStackProvider {
         private final ItemStack current;
+        private final ItemStack parent;
         private final ItemContainerCuddlyItem containerItem;
-        private boolean isContainedUsable;
 
-        public ContainerItemStack(ItemStack container) {
-            super(container.getItem(), container.getCount());
+        public ContainedItemStack(ItemStack container, ItemStack content) {
+            super(content.getItem(), content.getCount());
             if (!(container.getItem() instanceof ItemContainerCuddlyItem cuddly)) {
                 throw new UnsupportedOperationException("Cannot contain from a non-container class");
             }
-            this.current = container;
+            cuddly = (ItemContainerCuddlyItem) Item.byRawId(Registries.ITEM.getRawId(cuddly));
+            Blahaj.LOGGER.warn("Creating a hack stack for item {}", cuddly.getOrCreateTranslationKey());
+            this.current = cuddly.getContainedStack(container);
+            this.parent = container;
             this.containerItem = cuddly;
-            this.isContainedUsable = cuddly.getContainedStack(container).isIn(cuddly.usableContainedItemTag());
         }
 
         public void dirty() {
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            this.isContainedUsable = stack.isIn(this.containerItem.usableContainedItemTag());
-        }
-
-        private void updateContained(ItemStack content) {
-            if (!this.containerItem.getContainedStack(this.current).isOf(content.getItem())) return;
-            this.containerItem.extract(this.current);
-            this.containerItem.setContent(this.current, content);
+            this.containerItem.extract(this.parent);
+            this.containerItem.setContent(this.parent, this.containerItem.getContainedStack(this.parent));
         }
 
         public boolean isContainerEmpty() {
-            return this.containerItem.getContainedStack(this.current).isEmpty();
+            return this.containerItem.getContainedStack(this.parent).isEmpty();
         }
 
         public void tryInsertOrDrop(LivingEntity entity, ItemStack target) {
             if (target.isEmpty() || this == target) return;
             if (this.isContainerEmpty()) {
-                this.containerItem.setContent(this.current, target);
+                this.containerItem.setContent(this.containerItem.getContainedStack(this.parent), target);
             } else {
                 if (entity.isPlayer() &&
                         ((PlayerEntity) entity).isCreative() &&
-                        target.isOf(this.containerItem.getContainedStack(this.current).getItem())) {
+                        target.isOf(this.containerItem.getContainedStack(this.parent).getItem())) {
                     return;
                 }
                 if (entity.getWorld().isClient()) {
@@ -392,56 +388,35 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
 
         @Override
         public boolean isEmpty() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return current.isEmpty();
-            return this.containerItem.getContainedStack(this.current).isEmpty() && this.current.isEmpty();
-        }
-
-        @Override
-        public Item getItem() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return containerItem;
-            return this.containerItem.getContainedStack(this.current).getItem();
+            return this.current.isEmpty();
         }
 
         @Override
         public ActionResult useOnBlock(ItemUsageContext itemUsageContext) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.useOnBlock(itemUsageContext);
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            ActionResult result = stack.useOnBlock(itemUsageContext);
-            this.updateContained(stack);
-            return result;
-        }
-
-        @Override
-        public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.use(world, playerEntity, hand);
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            TypedActionResult<ItemStack> result = stack.use(world, playerEntity, hand);
-            if (stack != this) this.updateContained(stack);
-            return result;
-        }
-
-        @Override
-        public ItemStack finishUsing(World world, LivingEntity livingEntity) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.finishUsing(world, livingEntity);
-            ItemStack stack = this.containerItem.getContainedStack(this.current).finishUsing(world, livingEntity);
-            this.updateContained(stack);
-            return stack;
-        }
-
-        @Override
-        public NbtCompound writeNbt(NbtCompound nbtCompound) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.writeNbt(nbtCompound);
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            NbtCompound result = stack.writeNbt(nbtCompound);
-            this.updateContained(stack);
+            ActionResult result = this.current.useOnBlock(itemUsageContext);
             this.dirty();
             return result;
         }
 
         @Override
-        public int getMaxCount() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getMaxCount();
-            return this.containerItem.getContainedStack(this.current).getMaxCount();
+        public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+            TypedActionResult<ItemStack> result = this.current.use(world, player, hand);
+            this.dirty();
+            return result;
+        }
+
+        @Override
+        public ItemStack finishUsing(World world, LivingEntity livingEntity) {
+            this.current.finishUsing(world, livingEntity);
+            this.dirty();
+            return this.current;
+        }
+
+        @Override
+        public NbtCompound writeNbt(NbtCompound nbtCompound) {
+            NbtCompound result = this.current.writeNbt(nbtCompound);
+            this.dirty();
+            return result;
         }
 
         @Override
@@ -450,72 +425,44 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         }
 
         @Override
-        public boolean isDamageable() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.isDamageable();
-            return this.containerItem.getContainedStack(this.current).isDamageable();
-        }
-
-        @Override
         public boolean isDamaged() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.isDamaged();
-            return this.containerItem.getContainedStack(this.current).isDamaged();
+            return this.current.isDamaged();
         }
 
         @Override
         public int getDamage() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getDamage();
-            return this.containerItem.getContainedStack(this.current).getDamage();
+            return this.current.getDamage();
         }
 
         @Override
         public void setDamage(int i) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
-                this.current.setDamage(i);
-                return;
-            }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.setDamage(i);
-            this.updateContained(stack);
+            this.current.setDamage(i);
+            this.dirty();
         }
 
         @Override
-        public boolean damage(int i, Random random, @Nullable ServerPlayerEntity serverPlayerEntity) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.damage(i, random, serverPlayerEntity);
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            boolean result = stack.damage(i, random, serverPlayerEntity);
-            this.updateContained(stack);
+        public boolean damage(int i, Random random, @Nullable ServerPlayerEntity player) {
+            boolean result = this.current.damage(i, random, player);
             this.dirty();
             return result;
         }
 
         @Override
         public <T extends LivingEntity> void damage(int i, T livingEntity, Consumer<T> consumer) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
-                this.current.damage(i, livingEntity, consumer);
-                return;
-            }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.damage(i, livingEntity, consumer);
-            this.updateContained(stack);
+            this.current.damage(i, livingEntity, consumer);
             this.dirty();
         }
 
         @Override
-        public boolean onClicked(ItemStack itemStack, Slot slot, ClickType clickType, PlayerEntity playerEntity, StackReference stackReference) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.onClicked(itemStack, slot, clickType, playerEntity, stackReference);
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            boolean result = stack.onClicked(itemStack, slot, clickType, playerEntity, stackReference);
-            this.updateContained(stack);
+        public boolean onClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player, StackReference reference) {
+            boolean result = this.current.onClicked(stack, slot, clickType, player, reference);
             this.dirty();
             return result;
         }
 
         @Override
-        public ActionResult useOnEntity(PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.useOnEntity(playerEntity, livingEntity, hand);
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            ActionResult result = stack.useOnEntity(playerEntity, livingEntity, hand);
-            this.updateContained(stack);
+        public ActionResult useOnEntity(PlayerEntity player, LivingEntity livingEntity, Hand hand) {
+            ActionResult result = this.current.useOnEntity(player, livingEntity, hand);
             this.dirty();
             return result;
         }
@@ -524,251 +471,167 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         public ItemStack copy() {
             return this.current.copy();
         }
-
-        @Override
-        public String getTranslationKey() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getTranslationKey();
-            return this.containerItem.getContainedStack(this.current).getTranslationKey();
-        }
-
-        @Override
-        public String toString() {
-            return this.current.toString();
-        }
-
         @Override
         public void inventoryTick(World world, Entity entity, int i, boolean bl) {
             this.current.inventoryTick(world, entity, i, bl);
         }
 
         @Override
-        public int getMaxUseTime() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getMaxUseTime();
-            return this.containerItem.getContainedStack(this.current).getMaxUseTime();
-        }
-
-        @Override
-        public UseAction getUseAction() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getUseAction();
-            return this.containerItem.getContainedStack(this.current).getUseAction();
-        }
-
-        @Override
         public void onStoppedUsing(World world, LivingEntity livingEntity, int i) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) this.current.onStoppedUsing(world, livingEntity, i);
-            else {
-                ItemStack stack = this.containerItem.getContainedStack(this.current);
-                stack.onStoppedUsing(world, livingEntity, i);
-                this.updateContained(stack);
-            }
-        }
-
-        @Override
-        public boolean isUsedOnRelease() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.isUsedOnRelease();
-            return this.containerItem.getContainedStack(this.current).isUsedOnRelease();
+            this.current.onStoppedUsing(world, livingEntity, i);
+            this.dirty();
         }
 
         @Override
         public boolean hasNbt() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.hasNbt();
-            return this.containerItem.getContainedStack(this.current).hasNbt();
+            return this.current.hasNbt();
         }
 
         @Nullable
         @Override
         public NbtCompound getNbt() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getNbt();
-            return this.containerItem.getContainedStack(this.current).getNbt();
+            //TODO: ContainedNbt
+            return this.current.getNbt();
         }
 
         @Override
         public NbtCompound getOrCreateNbt() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getOrCreateNbt();
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            NbtCompound result = stack.getOrCreateNbt();
-            this.updateContained(stack);
+            NbtCompound result = this.current.getOrCreateNbt();
+            this.dirty();
             return result;
         }
 
         @Override
         public NbtCompound getOrCreateSubNbt(String string) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getOrCreateSubNbt(string);
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            NbtCompound result = stack.getOrCreateSubNbt(string);
-            this.updateContained(stack);
+            NbtCompound result = this.current.getOrCreateSubNbt(string);
+            this.dirty();
             return result;
         }
 
         @Nullable
         @Override
         public NbtCompound getSubNbt(String string) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getSubNbt(string);
-            return this.containerItem.getContainedStack(this.current).getSubNbt(string);
+            return this.current.getSubNbt(string);
         }
 
         @Override
         public void removeSubNbt(String string) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
-                this.current.removeSubNbt(string);
-                this.dirty();
-                return;
-            }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.removeSubNbt(string);
-            this.updateContained(stack);
+            this.current.removeSubNbt(string);
+            this.dirty();
         }
 
         @Override
         public NbtList getEnchantments() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getEnchantments();
-            return this.containerItem.getContainedStack(this.current).getEnchantments();
+            return this.current.getEnchantments();
         }
 
         @Override
         public void setNbt(@Nullable NbtCompound nbtCompound) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
-                this.current.setNbt(nbtCompound);
-                this.dirty();
-                return;
-            }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.setNbt(nbtCompound);
-            this.updateContained(stack);
+            this.current.setNbt(nbtCompound);
+            this.dirty();
         }
 
         @Override
         public Text getName() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getName();
-            return this.containerItem.getContainedStack(this.current).getName();
+            return this.current.getName();
         }
 
         @Override
         public ItemStack setCustomName(@Nullable Text text) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.setCustomName(text);
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.setCustomName(text);
-            this.updateContained(stack);
-            return stack;
+            this.current.setCustomName(text);
+            this.dirty();
+            return this.current;
         }
 
         @Override
         public void removeCustomName() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
+            if (this.current.hasCustomName()) {
                 this.current.removeCustomName();
-                return;
+                this.dirty();
             }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.removeCustomName();
-            this.updateContained(stack);
         }
 
         @Override
         public boolean hasCustomName() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.hasCustomName();
-            return this.containerItem.getContainedStack(this.current).hasCustomName();
+            return this.current.hasCustomName();
         }
 
         @Override
-        public List<Text> getTooltip(@Nullable PlayerEntity playerEntity, TooltipContext tooltipContext) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getTooltip(playerEntity, tooltipContext);
-            return this.containerItem.getContainedStack(this.current).getTooltip(playerEntity, tooltipContext);
+        public List<Text> getTooltip(@Nullable PlayerEntity playerEntity, TooltipContext context) {
+            return this.current.getTooltip(playerEntity, context);
         }
 
         @Override
         public void addHideFlag(TooltipSection tooltipSection) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
-                this.current.addHideFlag(tooltipSection);
-                return;
-            }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.addHideFlag(tooltipSection);
-            this.updateContained(stack);
+            this.current.addHideFlag(tooltipSection);
+            this.dirty();
         }
 
         @Override
         public void addEnchantment(Enchantment enchantment, int i) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
-                this.current.addEnchantment(enchantment, i);
-                return;
-            }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.addEnchantment(enchantment, i);
-            this.updateContained(stack);
+            this.current.addEnchantment(enchantment, i);
+            this.dirty();
         }
 
         @Override
         public boolean hasEnchantments() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.hasEnchantments();
-            return this.containerItem.getContainedStack(this.current).hasEnchantments();
+            return this.current.hasEnchantments();
         }
 
         @Override
         public boolean isInFrame() {
-            return this.current.isInFrame();
+            return this.parent.isInFrame();
         }
 
         @Override
         public void setHolder(@Nullable Entity entity) {
-            this.current.setHolder(entity);
+            this.parent.setHolder(entity);
         }
 
         @Nullable
         @Override
         public ItemFrameEntity getFrame() {
-            return this.current.getFrame();
+            return this.parent.getFrame();
         }
 
         @Nullable
         @Override
         public Entity getHolder() {
-            return this.current.getHolder();
+            return this.parent.getHolder();
         }
 
         @Override
         public int getRepairCost() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getRepairCost();
-            return this.containerItem.getContainedStack(this.current).getRepairCost();
+            return this.current.getRepairCost();
         }
 
         @Override
         public void setRepairCost(int i) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
+            if (i != this.current.getRepairCost()) {
                 this.current.setRepairCost(i);
-                return;
+                this.dirty();
             }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.setRepairCost(i);
-            this.updateContained(stack);
         }
 
         @Override
         public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getAttributeModifiers(equipmentSlot);
-            return this.containerItem.getContainedStack(this.current).getAttributeModifiers(equipmentSlot);
+            return this.current.getAttributeModifiers(equipmentSlot);
         }
 
         @Override
-        public void addAttributeModifier(EntityAttribute entityAttribute, EntityAttributeModifier entityAttributeModifier, @Nullable EquipmentSlot equipmentSlot) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
-                this.current.addAttributeModifier(entityAttribute, entityAttributeModifier, equipmentSlot);
-                return;
-            }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.addAttributeModifier(entityAttribute, entityAttributeModifier, equipmentSlot);
-            this.updateContained(stack);
+        public void addAttributeModifier(EntityAttribute attribute, EntityAttributeModifier modifier, @Nullable EquipmentSlot slot) {
+            this.current.addAttributeModifier(attribute, modifier, slot);
+            this.dirty();
         }
 
         @Override
-        public boolean canPlaceOn(Registry<Block> registry, CachedBlockPosition cachedBlockPosition) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.canPlaceOn(registry, cachedBlockPosition);
-            return this.containerItem.getContainedStack(this.current).canPlaceOn(registry, cachedBlockPosition);
+        public boolean canPlaceOn(Registry<Block> registry, CachedBlockPosition position) {
+            return this.current.canPlaceOn(registry, position);
         }
 
         @Override
-        public boolean canDestroy(Registry<Block> registry, CachedBlockPosition cachedBlockPosition) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.canDestroy(registry, cachedBlockPosition);
-            return this.containerItem.getContainedStack(this.current).canDestroy(registry, cachedBlockPosition);
+        public boolean canDestroy(Registry<Block> registry, CachedBlockPosition position) {
+            return this.current.canDestroy(registry, position);
         }
 
         @Override
@@ -779,47 +642,23 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         @Override
         public void setBobbingAnimationTime(int i) {
             this.current.setBobbingAnimationTime(i);
+            this.dirty();
         }
 
         @Override
         public int getCount() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getCount();
-            return this.containerItem.getContainedStack(this.current).getCount();
+            return this.current.getCount();
         }
 
         @Override
         public void setCount(int i) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) {
-                this.current.setCount(i);
-                return;
-            }
-            ItemStack stack = this.containerItem.getContainedStack(this.current);
-            stack.setCount(i);
-            this.updateContained(stack);
+            this.current.setCount(i);
+            this.dirty();
         }
 
         @Override
         public void usageTick(World world, LivingEntity livingEntity, int i) {
-            if (!this.isContainedUsable || this.isContainerEmpty()) this.current.usageTick(world, livingEntity, i);
-            else this.containerItem.getContainedStack(this.current).usageTick(world, livingEntity, i);
-        }
-
-        @Override
-        public boolean isFood() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.isFood();
-            return this.containerItem.getContainedStack(this.current).isFood();
-        }
-
-        @Override
-        public SoundEvent getDrinkSound() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getDrinkSound();
-            return this.containerItem.getContainedStack(this.current).getDrinkSound();
-        }
-
-        @Override
-        public SoundEvent getEatSound() {
-            if (!this.isContainedUsable || this.isContainerEmpty()) return this.current.getEatSound();
-            return this.containerItem.getContainedStack(this.current).getEatSound();
+            this.current.usageTick(world, livingEntity, i);
         }
     }
 }

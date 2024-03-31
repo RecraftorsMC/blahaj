@@ -1,6 +1,11 @@
+<<<<<<<< HEAD:src/main/java/mc/recraftors/blahaj/mixin/render/BipedEntityModelMixin.java
 package mc.recraftors.blahaj.mixin.render;
 
 import mc.recraftors.blahaj.Blahaj;
+========
+package mc.recraftors.blahaj.mixin;
+
+>>>>>>>> dc3ce3d (Class refactor):src/main/java/mc/recraftors/blahaj/mixin/BipedEntityModelMixin.java
 import mc.recraftors.blahaj.CuddlyItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

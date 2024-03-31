@@ -1,7 +1,7 @@
-package hibi.blahaj.mixin;
+package mc.recraftors.blahaj.mixin;
 
-import hibi.blahaj.ItemContainerCuddlyItem;
-import hibi.blahaj.ItemStackProvider;
+import mc.recraftors.blahaj.ItemContainerCuddlyItem;
+import mc.recraftors.blahaj.ItemStackProvider;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ThrowablePotionItem;

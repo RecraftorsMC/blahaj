@@ -1,9 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "hibi.blahaj.mixin",
+  "package": "mc.recraftors.blahaj.mixin",
   "compatibilityLevel": "JAVA_17",
-  "plugin": "hibi.blahaj.mixin.compat.Plugin",
+  "plugin": "mc.recraftors.blahaj.mixin.compat.Plugin",
   "mixins": [
     "AnvilScreenHandlerMixin",
     "ForgingScreenHandlerMixin",
@@ -24,7 +24,7 @@
     "BipedEntityModelMixin",
     "PlayerEntityRendererMixin",
     "TooltipComponentMixin",
-    "compat.travelersbackpack.and.trinkets.present.client.TravelersBackpackWearableModelMixin",
+    "compat.travelersbackpack.and.trinkets.TravelersBackpackWearableModelMixin",
     "compat.trinkets.present.BlahajMixin",
     "compat.trinkets.present.CapeFeatureRendererMixin",
     "compat.trinkets.present.CuddlyItemMixin",

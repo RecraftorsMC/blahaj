@@ -44,7 +44,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "hibi.blahaj.Blahaj"
+      "mc.recraftors.blahaj.Blahaj"
     ]
   },
   "mixins": [

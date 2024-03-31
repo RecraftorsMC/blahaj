@@ -1,6 +1,6 @@
 package mc.recraftors.blahaj.mixin.compat;
 
-import net.fabricmc.loader.api.FabricLoader;
+import mc.recraftors.blahaj.PreLaunchUtils;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -14,6 +14,7 @@ public final class Plugin implements IMixinConfigPlugin {
     private static final String COMPAT_PRESENT_KEY = "present";
     private static final String COMPAT_ABSENT_KEY = "absent";
     private static final String COMPAT_ANY_KEY = "any";
+    private static final String AUTHOR_KEY = "author";
 
     static {
         // Shorthand getting the plugin package to ensure not making trouble with other mixins
@@ -37,12 +38,18 @@ public final class Plugin implements IMixinConfigPlugin {
             return true;
         }
         String[] mixinPath = mixinClassName.split("\\.");
+        int i = COMPAT_PACKAGE_LENGTH;
         // the id of the target mod
-        String compatModId = mixinPath[COMPAT_PACKAGE_LENGTH];
+        String compatModId = mixinPath[i++];
+        if (mixinPath[i].equals(AUTHOR_KEY)) {
+            if (!PreLaunchUtils.modHasAuthor(compatModId, mixinPath[++i])) return false;
+            i++;
+        }
         // Apply accordingly of the mod's presence, absence, etc
-        if (mixinPath[COMPAT_PACKAGE_LENGTH+1].equals(COMPAT_PRESENT_KEY)) return FabricLoader.getInstance().isModLoaded(compatModId);
-        else if (mixinPath[COMPAT_PACKAGE_LENGTH+1].equals(COMPAT_ABSENT_KEY)) return !FabricLoader.getInstance().isModLoaded(compatModId);
-        else return (mixinPath[COMPAT_PACKAGE_LENGTH+1].equals(COMPAT_ANY_KEY));
+        String s = mixinPath[i];
+        if (s.equals(COMPAT_PRESENT_KEY)) return PreLaunchUtils.isModLoaded(compatModId);
+        else if (s.equals(COMPAT_ABSENT_KEY)) return !PreLaunchUtils.isModLoaded(compatModId);
+        else return s.equals(COMPAT_ANY_KEY);
     }
 
     @Override

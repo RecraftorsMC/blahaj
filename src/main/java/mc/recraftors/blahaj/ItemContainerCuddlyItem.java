@@ -32,7 +32,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
@@ -320,13 +319,13 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
                 throw new UnsupportedOperationException("Cannot contain from a non-container class");
             }
             cuddly = (ItemContainerCuddlyItem) Item.byRawId(Registries.ITEM.getRawId(cuddly));
-            Blahaj.LOGGER.warn("Creating a hack stack for item {}", cuddly.getOrCreateTranslationKey());
             this.current = cuddly.getContainedStack(container);
             this.parent = container;
             this.containerItem = cuddly;
         }
 
         public void dirty() {
+            if (this.getHolder() instanceof PlayerEntity player && player.isCreative()) return;
             this.containerItem.extract(this.parent);
             this.containerItem.setContent(this.parent, this.containerItem.getContainedStack(this.parent));
         }
@@ -371,6 +370,9 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
 
         @Override
         public boolean isEmpty() {
+            if (current == null) {
+                return this.parent.isEmpty();
+            }
             return this.current.isEmpty();
         }
 
@@ -385,18 +387,21 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
         public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
             TypedActionResult<ItemStack> result = this.current.use(world, player, hand);
             this.dirty();
-            return result;
+            return new TypedActionResult<>(result.getResult(), this);
         }
 
         @Override
         public ItemStack finishUsing(World world, LivingEntity livingEntity) {
             this.current.finishUsing(world, livingEntity);
             this.dirty();
-            return this.current;
+            return this.parent;
         }
 
         @Override
         public NbtCompound writeNbt(NbtCompound nbtCompound) {
+            if (this.current == null) {
+                return null;
+            }
             NbtCompound result = this.current.writeNbt(nbtCompound);
             this.dirty();
             return result;
@@ -414,17 +419,26 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
 
         @Override
         public int getDamage() {
+            if (this.current == null) {
+                return 0;
+            }
             return this.current.getDamage();
         }
 
         @Override
         public void setDamage(int i) {
+            if (this.current == null) {
+                return;
+            }
             this.current.setDamage(i);
             this.dirty();
         }
 
         @Override
         public boolean damage(int i, Random random, @Nullable ServerPlayerEntity player) {
+            if (this.current == null) {
+                return false;
+            }
             boolean result = this.current.damage(i, random, player);
             this.dirty();
             return result;
@@ -432,6 +446,9 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
 
         @Override
         public <T extends LivingEntity> void damage(int i, T livingEntity, Consumer<T> consumer) {
+            if (this.current == null) {
+                return;
+            }
             this.current.damage(i, livingEntity, consumer);
             this.dirty();
         }
@@ -452,11 +469,17 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
 
         @Override
         public ItemStack copy() {
+            if (this.current == null) {
+                return null;
+            }
             return this.current.copy();
         }
 
         @Override
         public ItemStack copyWithCount(int i) {
+            if (this.current == null) {
+                return null;
+            }
             return this.current.copyWithCount(i);
         }
 

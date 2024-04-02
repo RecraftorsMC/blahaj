@@ -54,20 +54,21 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
     private void onGetStackInHandReturnInjector(Hand hand, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack stack = cir.getReturnValue();
         if (stack.getItem() instanceof ItemContainerCuddlyItem cuddly) {
-            Blahaj.LOGGER.warn("stack validated as container of type {}, is content valid?", cuddly.getTranslationKey());
             ItemStack content = cuddly.getContainedStack(stack);
             if (content.isIn(cuddly.usableContainedItemTag())) {
-                Blahaj.LOGGER.warn("content valid, creating contained itemstack");
                 cir.setReturnValue(new ItemContainerCuddlyItem.ContainedItemStack(stack, content));
             }
         }
     }
 
+    @SuppressWarnings("ConstantValue")
     @Inject(method = "setStackInHand", at = @At("HEAD"), cancellable = true)
     private void onSetStackInHandHeadInjector(Hand hand, ItemStack itemStack, CallbackInfo ci) {
         ItemStack stack = getStackInHand(hand);
         if (stack instanceof ItemContainerCuddlyItem.ContainedItemStack containedStack) {
-            containedStack.tryInsertOrDrop((LivingEntity) ((Object) this), itemStack);
+            if (!((Object)this instanceof PlayerEntity player && player.isCreative())) {
+                containedStack.tryInsertOrDrop((LivingEntity) ((Object) this), itemStack);
+            }
             ci.cancel();
         }
     }

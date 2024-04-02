@@ -1,4 +1,4 @@
-package mc.recraftors.blahaj.mixin;
+package mc.recraftors.blahaj.mixin.render;
 
 import mc.recraftors.blahaj.CuddlyItem;
 import net.fabricmc.api.EnvType;

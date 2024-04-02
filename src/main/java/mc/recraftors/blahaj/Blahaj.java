@@ -3,6 +3,7 @@ package mc.recraftors.blahaj;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import mc.recraftors.unruled_api.UnruledApi;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -103,5 +104,10 @@ public class Blahaj implements ModInitializer {
                 return v;
             });
         });
+    }
+
+    public static boolean holdsOnlyCuddlyItem(LivingEntity entity) {
+        return (entity.getMainHandStack().getItem() instanceof CuddlyItem && entity.getOffHandStack().isEmpty() ||
+                entity.getOffHandStack().getItem() instanceof CuddlyItem && entity.getMainHandStack().isEmpty());
     }
 }

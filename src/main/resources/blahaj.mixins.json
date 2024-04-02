@@ -19,15 +19,16 @@
     "compat.travelersbackpack.present.ResourceUtilsMixin"
   ],
   "client": [
-    "AllayEntityMixin",
-    "BipedEntityModelMixin",
-    "PlayerEntityRendererMixin",
-    "TooltipComponentMixin",
-    "compat.travelersbackpack.and.trinkets.TravelersBackpackWearableModelMixin",
     "compat.trinkets.present.BlahajMixin",
     "compat.trinkets.present.CapeFeatureRendererMixin",
     "compat.trinkets.present.CuddlyItemMixin",
-    "compat.trinkets.present.PlayerEntityModelMixin"
+    "compat.trinkets.present.PlayerEntityModelMixin",
+    "compat.travelersbackpack.and.trinkets.TravelersBackpackWearableModelMixin",
+    "render.AllayEntityMixin",
+    "render.BipedEntityModelMixin",
+    "render.LivingEntityRendererMixin",
+    "render.PlayerEntityRendererMixin",
+    "render.TooltipComponentMixin"
   ],
   "injectors": {
     "defaultRequire": 1

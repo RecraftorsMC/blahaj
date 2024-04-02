@@ -20,6 +20,8 @@
     "compat.travelersbackpack.present.ResourceUtilsMixin"
   ],
   "client": [
+    "compat.notenoughanimations.present.HeldItemHandlerMixin",
+    "compat.notenoughanimations.present.SleepAnimationMixin",
     "compat.trinkets.present.BlahajMixin",
     "compat.trinkets.present.CapeFeatureRendererMixin",
     "compat.trinkets.present.CuddlyItemMixin",

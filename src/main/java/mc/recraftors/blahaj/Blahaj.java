@@ -52,6 +52,9 @@ public class Blahaj implements ModInitializer {
         ENABLE_CONTAINER_USE = GameRules.register("blahaj.contained.enable_use", GameRules.Category.PLAYER,
                 UnruledApi.createBoolean(false));
 
+        ENABLE_CONTAINER_USE = GameRules.register("blahaj.contained.enable_use", GameRules.Category.PLAYER,
+                UnruledApi.createBoolean(false));
+
         ITEM_MAP = new HashMap<>();
     }
 

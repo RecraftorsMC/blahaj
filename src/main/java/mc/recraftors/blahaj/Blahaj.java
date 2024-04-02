@@ -1,6 +1,7 @@
 package mc.recraftors.blahaj;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import mc.recraftors.unruled_api.UnruledApi;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +12,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.GameRules;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +28,8 @@ public class Blahaj implements ModInitializer {
     public static final Identifier BLAVINGAD_USABLE_ITEMS_ID;
     public static final TagKey<Item> NON_CONTAINABLE_ITEMS;
     public static final TagKey<Item> BLAVINGAD_USABLE_ITEMS;
+
+    public static final GameRules.Key<GameRules.BooleanRule> ENABLE_CONTAINER_USE;
 
     public static final String MOD_ID;
     public static final String TOOLTIP_PRE;
@@ -43,6 +47,9 @@ public class Blahaj implements ModInitializer {
         BLAVINGAD_USABLE_ITEMS_ID = new Identifier(MOD_ID, "blavingad_usable");
         NON_CONTAINABLE_ITEMS = TagKey.of(Registry.ITEM_KEY, NON_CONTAINABLE_ITEMS_TAG_ID);
         BLAVINGAD_USABLE_ITEMS = TagKey.of(Registry.ITEM_KEY, BLAVINGAD_USABLE_ITEMS_ID);
+
+        ENABLE_CONTAINER_USE = GameRules.register("blahaj.contained.enable_use", GameRules.Category.PLAYER,
+                UnruledApi.createBoolean(false));
 
         ITEM_MAP = new HashMap<>();
     }

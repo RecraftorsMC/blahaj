@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -53,6 +54,7 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
 
     @Inject(method = "getStackInHand", at = @At("RETURN"), cancellable = true)
     private void onGetStackInHandReturnInjector(Hand hand, CallbackInfoReturnable<ItemStack> cir) {
+        if (!this.getWorld().getGameRules().getBoolean(Blahaj.ENABLE_CONTAINER_USE)) return;
         ItemStack stack = cir.getReturnValue();
         if (stack.getItem() instanceof ItemContainerCuddlyItem cuddly) {
             ItemStack content = cuddly.getContainedStack(stack);

@@ -162,6 +162,7 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
         String s = reference.inventory().getSlotType().getName();
         if (!"shoes".equalsIgnoreCase(s)) return;
         ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
+        //TODO feet models
     }
 
     @Unique

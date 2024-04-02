@@ -14,6 +14,11 @@ public final class Plugin implements IMixinConfigPlugin {
     private static final String COMPAT_PRESENT_KEY = "present";
     private static final String COMPAT_ABSENT_KEY = "absent";
     private static final String COMPAT_ANY_KEY = "any";
+    private static final String COMPAT_AND_KEY = "and";
+    private static final String COMPAT_BUT_KEY = "and_not";
+    private static final String COMPAT_NOR_KEY = "nor";
+    private static final String COMPAT_OR_KEY = "or";
+    private static final String COMPAT_XOR_KEY = "xor";
     private static final String AUTHOR_KEY = "author";
 
     static {
@@ -46,10 +51,17 @@ public final class Plugin implements IMixinConfigPlugin {
             i++;
         }
         // Apply accordingly of the mod's presence, absence, etc
-        String s = mixinPath[i];
-        if (s.equals(COMPAT_PRESENT_KEY)) return PreLaunchUtils.isModLoaded(compatModId);
-        else if (s.equals(COMPAT_ABSENT_KEY)) return !PreLaunchUtils.isModLoaded(compatModId);
-        else return s.equals(COMPAT_ANY_KEY);
+        String s;
+        return switch (s = mixinPath[i++]) {
+            case COMPAT_PRESENT_KEY -> PreLaunchUtils.isModLoaded(compatModId);
+            case COMPAT_ABSENT_KEY -> !PreLaunchUtils.isModLoaded(compatModId);
+            case COMPAT_AND_KEY -> PreLaunchUtils.isModLoaded(compatModId) && PreLaunchUtils.isModLoaded(mixinPath[i]);
+            case COMPAT_BUT_KEY -> PreLaunchUtils.isModLoaded(compatModId) && !PreLaunchUtils.isModLoaded(mixinPath[i]);
+            case COMPAT_NOR_KEY -> !PreLaunchUtils.isModLoaded(compatModId) && !PreLaunchUtils.isModLoaded(mixinPath[i]);
+            case COMPAT_OR_KEY -> PreLaunchUtils.isModLoaded(compatModId) || PreLaunchUtils.isModLoaded(mixinPath[i]);
+            case COMPAT_XOR_KEY -> PreLaunchUtils.isModLoaded(compatModId) ^ PreLaunchUtils.isModLoaded(mixinPath[i]);
+            default -> s.equals(COMPAT_ANY_KEY);
+        };
     }
 
     @Override

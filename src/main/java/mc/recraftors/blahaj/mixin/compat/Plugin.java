@@ -1,6 +1,6 @@
 package mc.recraftors.blahaj.mixin.compat;
 
-import net.fabricmc.loader.api.FabricLoader;
+import mc.recraftors.blahaj.PreLaunchUtils;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -15,8 +15,11 @@ public final class Plugin implements IMixinConfigPlugin {
     private static final String COMPAT_ABSENT_KEY = "absent";
     private static final String COMPAT_ANY_KEY = "any";
     private static final String COMPAT_AND_KEY = "and";
-    private static final String COMPAT_XOR_KEY = "and_not";
-
+    private static final String COMPAT_BUT_KEY = "and_not";
+    private static final String COMPAT_NOR_KEY = "nor";
+    private static final String COMPAT_OR_KEY = "or";
+    private static final String COMPAT_XOR_KEY = "xor";
+    private static final String AUTHOR_KEY = "author";
 
     static {
         // Shorthand getting the plugin package to ensure not making trouble with other mixins
@@ -40,21 +43,24 @@ public final class Plugin implements IMixinConfigPlugin {
             return true;
         }
         String[] mixinPath = mixinClassName.split("\\.");
+        int i = COMPAT_PACKAGE_LENGTH;
         // the id of the target mod
-        String compatModId = mixinPath[COMPAT_PACKAGE_LENGTH];
+        String compatModId = mixinPath[i++];
+        if (mixinPath[i].equals(AUTHOR_KEY)) {
+            if (!PreLaunchUtils.modHasAuthor(compatModId, mixinPath[++i])) return false;
+            i++;
+        }
         // Apply accordingly of the mod's presence, absence, etc
-        return switch (mixinPath[COMPAT_PACKAGE_LENGTH + 1]) {
-            case COMPAT_PRESENT_KEY -> FabricLoader.getInstance().isModLoaded(compatModId);
-            case COMPAT_ABSENT_KEY ->  !FabricLoader.getInstance().isModLoaded(compatModId);
-            case COMPAT_AND_KEY -> {
-                String compatModId2 = mixinPath[COMPAT_PACKAGE_LENGTH + 2];
-                yield FabricLoader.getInstance().isModLoaded(compatModId) && FabricLoader.getInstance().isModLoaded(compatModId2);
-            }
-            case COMPAT_XOR_KEY -> {
-                String compatModId2 = mixinPath[COMPAT_PACKAGE_LENGTH + 2];
-                yield FabricLoader.getInstance().isModLoaded(compatModId) && !FabricLoader.getInstance().isModLoaded(compatModId2);
-            }
-            default -> (mixinPath[COMPAT_PACKAGE_LENGTH + 1].equals(COMPAT_ANY_KEY));
+        String s;
+        return switch (s = mixinPath[i++]) {
+            case COMPAT_PRESENT_KEY -> PreLaunchUtils.isModLoaded(compatModId);
+            case COMPAT_ABSENT_KEY -> !PreLaunchUtils.isModLoaded(compatModId);
+            case COMPAT_AND_KEY -> PreLaunchUtils.isModLoaded(compatModId) && PreLaunchUtils.isModLoaded(mixinPath[i]);
+            case COMPAT_BUT_KEY -> PreLaunchUtils.isModLoaded(compatModId) && !PreLaunchUtils.isModLoaded(mixinPath[i]);
+            case COMPAT_NOR_KEY -> !PreLaunchUtils.isModLoaded(compatModId) && !PreLaunchUtils.isModLoaded(mixinPath[i]);
+            case COMPAT_OR_KEY -> PreLaunchUtils.isModLoaded(compatModId) || PreLaunchUtils.isModLoaded(mixinPath[i]);
+            case COMPAT_XOR_KEY -> PreLaunchUtils.isModLoaded(compatModId) ^ PreLaunchUtils.isModLoaded(mixinPath[i]);
+            default -> s.equals(COMPAT_ANY_KEY);
         };
     }
 

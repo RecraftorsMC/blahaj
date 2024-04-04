@@ -15,6 +15,10 @@ repositories {
 		name = "Ladysnake Libs"
 		url = 'https://maven.ladysnake.org/releases'
 	}
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
 }
 
 dependencies {
@@ -22,8 +26,14 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
+    modImplementation(include "maven.modrinth:unruled-api:${project.unruled_version}")
+
     modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"
-    modImplementation "dev.emi:trinkets:${project.trinkets_version}"
+    modCompileOnly "dev.emi:trinkets:${project.trinkets_version}"
+    modCompileOnly "maven.modrinth:travelersbackpack:${project.travelersbackpack_version}"
+    modCompileOnly "maven.modrinth:not-enough-animations:${project.notenoughanimations_version}"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.0+1.20.2"
 }
 
 loom {

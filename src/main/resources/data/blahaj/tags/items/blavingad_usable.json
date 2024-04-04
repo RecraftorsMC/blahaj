@@ -1,0 +1,13 @@
+{
+  "values": [
+    "minecraft:potion",
+    "minecraft:splash_potion",
+    "minecraft:lingering_potion",
+    {
+      "id": "#c:potions",
+      "required": false
+    },
+    "minecraft:experience_bottle",
+    "minecraft:totem_of_undying"
+  ]
+}

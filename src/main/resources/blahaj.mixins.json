@@ -1,28 +1,37 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "hibi.blahaj.mixin",
+  "package": "mc.recraftors.blahaj.mixin",
   "compatibilityLevel": "JAVA_17",
-  "plugin": "hibi.blahaj.mixin.compat.Plugin",
+  "plugin": "mc.recraftors.blahaj.mixin.compat.Plugin",
   "mixins": [
     "AnvilScreenHandlerMixin",
     "ForgingScreenHandlerMixin",
     "ItemGroupsMixin",
     "ItemsMixin",
+    "ItemStackMixin",
     "LivingEntityMixin",
     "LootManagerMixin",
     "LootTableMixin",
-    "MinecraftServerMixin"
+    "MinecraftServerMixin",
+    "compat.travelersbackpack.present.ModBlockEntityTypesMixin",
+    "compat.travelersbackpack.present.ModBlocksMixin",
+    "compat.travelersbackpack.present.ModItemsMixin",
+    "compat.travelersbackpack.present.ResourceUtilsMixin"
   ],
   "client": [
-    "AllayEntityMixin",
-    "BipedEntityModelMixin",
-    "PlayerEntityRendererMixin",
-    "TooltipComponentMixin",
+    "compat.notenoughanimations.present.HeldItemHandlerMixin",
+    "compat.notenoughanimations.present.SleepAnimationMixin",
+    "compat.travelersbackpack.and.trinkets.TravelersBackpackWearableModelMixin",
     "compat.trinkets.present.BlahajMixin",
     "compat.trinkets.present.CapeFeatureRendererMixin",
     "compat.trinkets.present.CuddlyItemMixin",
-    "compat.trinkets.present.PlayerEntityModelMixin"
+    "compat.trinkets.present.PlayerEntityModelMixin",
+    "render.AllayEntityMixin",
+    "render.BipedEntityModelMixin",
+    "render.LivingEntityRendererMixin",
+    "render.PlayerEntityRendererMixin",
+    "render.TooltipComponentMixin"
   ],
   "injectors": {
     "defaultRequire": 1

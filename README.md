@@ -19,10 +19,6 @@ A Minecraft mod that adds the IKEA BLÅHAJ Soft toy shark and a giant bread pill
 | Bread Pillow   | <img src="./.pretty_readme/preview_bread.png" height=124/>       | ![Crafting recipe for Bread Pillow](./.pretty_readme/recipe_bread.png)      |
 | Blue Whale toy | <img src="./.pretty_readme/preview_blue_whale.png" height=124/>  | ![Crafting recipe for Blavingad](./.pretty_readme/recipe_blue_whale.png)    |
 
-Since 0.6.0:
-
-[![Unruled API badge](https://github.com/RecraftorsMC/.github/blob/main/pictures/unruled-badge.png)](https://modrinth.com/mod/unruled-api)
-
 ## Extra features
 
 Sleeping cuddles!

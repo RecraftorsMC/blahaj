@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/mc/recraftors/blahaj/mixin/render/AllayEntityMixin.java
 package mc.recraftors.blahaj.mixin.render;
-========
-package mc.recraftors.blahaj.mixin;
->>>>>>>> dc3ce3d (Class refactor):src/main/java/mc/recraftors/blahaj/mixin/AllayEntityMixin.java
 
 import mc.recraftors.blahaj.CuddlyItem;
 import net.fabricmc.api.EnvType;

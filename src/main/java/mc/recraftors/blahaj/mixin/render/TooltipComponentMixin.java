@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/mc/recraftors/blahaj/mixin/render/TooltipComponentMixin.java
 package mc.recraftors.blahaj.mixin.render;
-========
-package mc.recraftors.blahaj.mixin;
->>>>>>>> dc3ce3d (Class refactor):src/main/java/mc/recraftors/blahaj/mixin/TooltipComponentMixin.java
 
 import mc.recraftors.blahaj.ItemContainerCuddlyItem;
 import net.fabricmc.api.EnvType;

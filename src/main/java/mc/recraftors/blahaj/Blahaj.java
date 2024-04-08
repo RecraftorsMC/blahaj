@@ -25,6 +25,7 @@ public class Blahaj implements ModInitializer {
     public static final Identifier KLAPPAR_HAJ_ID;
     public static final Identifier BEYOU_BLAHAJ_ID;
     public static final Identifier BLAVINGAD_ID;
+    public static final Identifier ORCA_HAJ_ID;
     public static final Identifier BREAD_ID;
     public static final Identifier NON_CONTAINABLE_ITEMS_TAG_ID;
     public static final Identifier BLAVINGAD_USABLE_ITEMS_ID;
@@ -44,6 +45,7 @@ public class Blahaj implements ModInitializer {
         KLAPPAR_HAJ_ID = new Identifier(MOD_ID, "gray_shark");
         BEYOU_BLAHAJ_ID = new Identifier(MOD_ID, "trans_shark");
         BLAVINGAD_ID = new Identifier(MOD_ID, "blue_whale");
+        ORCA_HAJ_ID = new Identifier(MOD_ID, "killer_whale");
         BREAD_ID = new Identifier(MOD_ID, "bread");
         NON_CONTAINABLE_ITEMS_TAG_ID = new Identifier(MOD_ID, "not_containable");
         BLAVINGAD_USABLE_ITEMS_ID = new Identifier(MOD_ID, "blavingad_usable");

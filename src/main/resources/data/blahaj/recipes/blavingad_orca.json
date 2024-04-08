@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": {
+    "item": "blahaj:blue_whale"
+  },
+  "addition": {
+    "item": "minecraft:white_dye"
+  },
+  "template": {
+    "item": "minecraft:black_dye"
+  },
+  "result": {
+    "item": "blahaj:killer_whale"
+  }
+}

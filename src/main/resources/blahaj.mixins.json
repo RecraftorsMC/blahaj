@@ -20,6 +20,7 @@
     "compat.travelersbackpack.present.ResourceUtilsMixin"
   ],
   "client": [
+    "ClientPlayNetworkHandlerMixin",
     "compat.notenoughanimations.present.HeldItemHandlerMixin",
     "compat.notenoughanimations.present.SleepAnimationMixin",
     "compat.travelersbackpack.and.trinkets.TravelersBackpackWearableModelMixin",

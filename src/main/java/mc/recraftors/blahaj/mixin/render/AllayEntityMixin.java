@@ -1,6 +1,6 @@
 package mc.recraftors.blahaj.mixin.render;
 
-import mc.recraftors.blahaj.CuddlyItem;
+import mc.recraftors.blahaj.item.CuddlyItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.passive.AllayEntity;

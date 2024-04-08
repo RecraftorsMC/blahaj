@@ -1,10 +1,7 @@
 package mc.recraftors.blahaj.mixin.compat.trinkets.present;
 
 import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.TrinketComponent;
-import dev.emi.trinkets.api.TrinketInventory;
-import dev.emi.trinkets.api.TrinketsApi;
-import mc.recraftors.blahaj.CuddlyItem;
+import mc.recraftors.blahaj.item.CuddlyItem;
 import mc.recraftors.blahaj.compat.TrinketPlushRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,9 +21,7 @@ import net.minecraft.util.math.RotationAxis;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 @Mixin(CuddlyItem.class)

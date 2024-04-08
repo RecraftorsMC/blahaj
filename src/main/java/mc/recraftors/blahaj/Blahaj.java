@@ -1,6 +1,7 @@
 package mc.recraftors.blahaj;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import mc.recraftors.blahaj.item.CuddlyItem;
 import mc.recraftors.unruled_api.UnruledApi;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.entity.LivingEntity;

@@ -9,6 +9,7 @@
     "EnchantmentMixin",
     "ForgingScreenHandlerMixin",
     "ItemGroupsMixin",
+    "ItemMixin",
     "ItemsMixin",
     "ItemStackMixin",
     "LivingEntityMixin",

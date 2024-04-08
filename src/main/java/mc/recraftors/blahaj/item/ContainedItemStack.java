@@ -123,7 +123,7 @@ public final class ContainedItemStack extends ItemStack implements ItemStackProv
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         TypedActionResult<ItemStack> result = this.current.use(world, player, hand);
         this.dirty();
-        return new TypedActionResult<>(result.getResult(), this);
+        return new TypedActionResult<>(result.getResult(), this.parent);
     }
 
     @Override

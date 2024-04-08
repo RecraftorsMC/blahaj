@@ -6,6 +6,7 @@
   "plugin": "mc.recraftors.blahaj.mixin.compat.Plugin",
   "mixins": [
     "AnvilScreenHandlerMixin",
+    "EnchantmentMixin",
     "ForgingScreenHandlerMixin",
     "ItemGroupsMixin",
     "ItemsMixin",

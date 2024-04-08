@@ -3,7 +3,7 @@ package mc.recraftors.blahaj.mixin.compat.trinkets.present;
 import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import mc.recraftors.blahaj.Blahaj;
-import mc.recraftors.blahaj.CuddlyItem;
+import mc.recraftors.blahaj.item.CuddlyItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.spongepowered.asm.mixin.Mixin;

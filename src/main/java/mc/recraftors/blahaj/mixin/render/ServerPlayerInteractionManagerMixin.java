@@ -1,7 +1,7 @@
 package mc.recraftors.blahaj.mixin.render;
 
-import mc.recraftors.blahaj.ItemContainerCuddlyItem;
-import mc.recraftors.blahaj.ItemStackProvider;
+import mc.recraftors.blahaj.item.ItemContainerCuddlyItem;
+import mc.recraftors.blahaj.item.ItemStackProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
 import org.spongepowered.asm.mixin.Mixin;

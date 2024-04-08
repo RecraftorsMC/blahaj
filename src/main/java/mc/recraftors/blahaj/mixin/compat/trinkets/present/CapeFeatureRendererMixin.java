@@ -3,7 +3,6 @@ package mc.recraftors.blahaj.mixin.compat.trinkets.present;
 import dev.emi.trinkets.api.SlotGroup;
 import dev.emi.trinkets.api.SlotType;
 import dev.emi.trinkets.api.TrinketsApi;
-import mc.recraftors.blahaj.CuddlyItem;
 import mc.recraftors.blahaj.compat.BooleanConsumer;
 import mc.recraftors.blahaj.compat.TrinketPlushRenderer;
 import net.fabricmc.api.EnvType;
@@ -19,9 +18,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * Hides unsolicited cape if a cuddly item is in a back slot.

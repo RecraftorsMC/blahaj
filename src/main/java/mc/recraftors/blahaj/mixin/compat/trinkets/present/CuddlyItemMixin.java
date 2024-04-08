@@ -4,7 +4,7 @@ import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
-import mc.recraftors.blahaj.CuddlyItem;
+import mc.recraftors.blahaj.item.CuddlyItem;
 import mc.recraftors.blahaj.compat.TrinketPlushRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -184,27 +184,5 @@ public abstract class CuddlyItemMixin implements TrinketPlushRenderer {
             return player.getMainArm() == Arm.LEFT;
         }
         return fallback;
-    }
-
-    @Unique
-    private static boolean blahaj$trinkets$hasCuddlyInSlot(LivingEntity entity, String group, String... names) {
-        Optional<TrinketComponent> optionalComponent = TrinketsApi.getTrinketComponent(entity);
-        if (optionalComponent.isEmpty()) return false;
-        TrinketComponent component = optionalComponent.get();
-        Map<String, TrinketInventory> groupMap = component.getInventory().get(group);
-        if (groupMap == null) return false;
-        Optional<TrinketInventory> optionalInventory = Optional.empty();
-        for (String name : names) {
-            optionalInventory = Optional.ofNullable(groupMap.get(name));
-            if (optionalInventory.isPresent()) {
-                break;
-            }
-        }
-        if (optionalInventory.isEmpty()) return false;
-        TrinketInventory inventory = optionalInventory.get();
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.getStack(i).getItem() instanceof CuddlyItem) return true;
-        }
-        return false;
     }
 }

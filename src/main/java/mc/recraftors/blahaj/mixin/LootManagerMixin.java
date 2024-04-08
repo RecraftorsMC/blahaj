@@ -2,7 +2,7 @@ package mc.recraftors.blahaj.mixin;
 
 import com.google.gson.JsonObject;
 import mc.recraftors.blahaj.Blahaj;
-import mc.recraftors.blahaj.CuddlyItem;
+import mc.recraftors.blahaj.item.CuddlyItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.*;

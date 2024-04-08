@@ -1,6 +1,6 @@
 package mc.recraftors.blahaj.mixin;
 
-import mc.recraftors.blahaj.CuddlyItem;
+import mc.recraftors.blahaj.item.CuddlyItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.screen.AnvilScreenHandler;

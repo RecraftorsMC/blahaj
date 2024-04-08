@@ -29,6 +29,7 @@ dependencies {
     modImplementation(include "maven.modrinth:unruled-api:${project.unruled_version}")
 
     modCompileOnly "dev.emi:trinkets:${project.trinkets_version}"
+    modCompileOnly "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"
     modCompileOnly "maven.modrinth:travelersbackpack:${project.travelersbackpack_version}"
     modCompileOnly "maven.modrinth:not-enough-animations:${project.notenoughanimations_version}"
 

@@ -1,6 +1,6 @@
 package mc.recraftors.blahaj.mixin;
 
-import mc.recraftors.blahaj.ItemStackProvider;
+import mc.recraftors.blahaj.item.ItemStackProvider;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 

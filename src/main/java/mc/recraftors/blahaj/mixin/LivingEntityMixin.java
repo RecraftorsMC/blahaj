@@ -1,8 +1,9 @@
 package mc.recraftors.blahaj.mixin;
 
 import mc.recraftors.blahaj.Blahaj;
-import mc.recraftors.blahaj.HandItemStackProvider;
-import mc.recraftors.blahaj.ItemContainerCuddlyItem;
+import mc.recraftors.blahaj.item.ContainedItemStack;
+import mc.recraftors.blahaj.item.HandItemStackProvider;
+import mc.recraftors.blahaj.item.ItemContainerCuddlyItem;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -59,7 +60,7 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
         if (stack.getItem() instanceof ItemContainerCuddlyItem cuddly) {
             ItemStack content = cuddly.getContainedStack(stack);
             if (content.isIn(cuddly.usableContainedItemTag())) {
-                cir.setReturnValue(new ItemContainerCuddlyItem.ContainedItemStack(stack, content));
+                cir.setReturnValue(new ContainedItemStack(stack, content));
             }
         }
     }
@@ -68,7 +69,7 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
     @Inject(method = "setStackInHand", at = @At("HEAD"), cancellable = true)
     private void onSetStackInHandHeadInjector(Hand hand, ItemStack itemStack, CallbackInfo ci) {
         ItemStack stack = getStackInHand(hand);
-        if (stack instanceof ItemContainerCuddlyItem.ContainedItemStack containedStack) {
+        if (stack instanceof ContainedItemStack containedStack) {
             if (!((Object)this instanceof PlayerEntity player && player.isCreative())) {
                 containedStack.tryInsertOrDrop((LivingEntity) ((Object) this), itemStack);
             }
@@ -76,6 +77,7 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
         }
     }
 
+    @SuppressWarnings("ConstantValue")
     @Inject(method = "tryUseTotem", at = @At("TAIL"), cancellable = true)
     private void tryUseTotemTryUseContainedTotemInjector(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValueZ()) return;
@@ -88,7 +90,9 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
             if (contained.isOf(Items.TOTEM_OF_UNDYING)) {
                 stack = handStack;
                 stack2 = contained;
-                cuddly.extract(handStack);
+                if (!(((Object)this) instanceof PlayerEntity player && player.isCreative())) {
+                    cuddly.extract(handStack);
+                }
                 break;
             }
         }

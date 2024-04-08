@@ -1,8 +1,8 @@
 package mc.recraftors.blahaj.mixin;
 
 import mc.recraftors.blahaj.Blahaj;
-import mc.recraftors.blahaj.CuddlyItem;
-import mc.recraftors.blahaj.ItemContainerCuddlyItem;
+import mc.recraftors.blahaj.item.CuddlyItem;
+import mc.recraftors.blahaj.item.ItemContainerCuddlyItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;

@@ -6,8 +6,10 @@
   "plugin": "mc.recraftors.blahaj.mixin.compat.Plugin",
   "mixins": [
     "AnvilScreenHandlerMixin",
+    "EnchantmentMixin",
     "ForgingScreenHandlerMixin",
     "ItemGroupsMixin",
+    "ItemMixin",
     "ItemsMixin",
     "ItemStackMixin",
     "LivingEntityMixin",
@@ -20,6 +22,7 @@
     "compat.travelersbackpack.present.ResourceUtilsMixin"
   ],
   "client": [
+    "ClientPlayNetworkHandlerMixin",
     "compat.notenoughanimations.present.HeldItemHandlerMixin",
     "compat.notenoughanimations.present.SleepAnimationMixin",
     "compat.travelersbackpack.and.trinkets.TravelersBackpackWearableModelMixin",

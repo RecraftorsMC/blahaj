@@ -1,4 +1,4 @@
-package mc.recraftors.blahaj;
+package mc.recraftors.blahaj.item;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;

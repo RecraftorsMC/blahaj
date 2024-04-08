@@ -1,8 +1,9 @@
 package mc.recraftors.blahaj.mixin;
 
 import mc.recraftors.blahaj.Blahaj;
-import mc.recraftors.blahaj.HandItemStackProvider;
-import mc.recraftors.blahaj.ItemContainerCuddlyItem;
+import mc.recraftors.blahaj.item.ContainedItemStack;
+import mc.recraftors.blahaj.item.HandItemStackProvider;
+import mc.recraftors.blahaj.item.ItemContainerCuddlyItem;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -20,6 +21,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -59,23 +61,28 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
         if (stack.getItem() instanceof ItemContainerCuddlyItem cuddly) {
             ItemStack content = cuddly.getContainedStack(stack);
             if (content.isIn(cuddly.usableContainedItemTag())) {
-                cir.setReturnValue(new ItemContainerCuddlyItem.ContainedItemStack(stack, content));
+                cir.setReturnValue(new ContainedItemStack(stack, content));
             }
         }
     }
 
-    @SuppressWarnings("ConstantValue")
     @Inject(method = "setStackInHand", at = @At("HEAD"), cancellable = true)
     private void onSetStackInHandHeadInjector(Hand hand, ItemStack itemStack, CallbackInfo ci) {
         ItemStack stack = getStackInHand(hand);
-        if (stack instanceof ItemContainerCuddlyItem.ContainedItemStack containedStack) {
-            if (!((Object)this instanceof PlayerEntity player && player.isCreative())) {
-                containedStack.tryInsertOrDrop((LivingEntity) ((Object) this), itemStack);
-            }
+        if (stack instanceof ContainedItemStack containedStack) {
             ci.cancel();
+            blahaj$idkSetStackInHand(this, containedStack, itemStack);
         }
     }
 
+    @Unique
+    private static void blahaj$idkSetStackInHand(Entity entity, ContainedItemStack stack1, ItemStack stack2) {
+        if (!(entity instanceof PlayerEntity player)) return;
+        if (player.isCreative()) return;
+        stack1.tryInsertOrDrop(player, stack2);
+    }
+
+    @SuppressWarnings("ConstantValue")
     @Inject(method = "tryUseTotem", at = @At("TAIL"), cancellable = true)
     private void tryUseTotemTryUseContainedTotemInjector(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValueZ()) return;
@@ -88,7 +95,9 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
             if (contained.isOf(Items.TOTEM_OF_UNDYING)) {
                 stack = handStack;
                 stack2 = contained;
-                cuddly.extract(handStack);
+                if (!(((Object)this) instanceof PlayerEntity player && player.isCreative())) {
+                    cuddly.extract(handStack);
+                }
                 break;
             }
         }

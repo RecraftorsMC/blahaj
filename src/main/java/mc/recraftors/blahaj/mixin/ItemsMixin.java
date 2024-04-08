@@ -30,6 +30,7 @@ public abstract class ItemsMixin {
         Blahaj.storeItem(BLAHAJ_ID, (CuddlyItem) register(BLAHAJ_ID, new CuddlyItem(settings, String.format(TOOLTIP_PRE, BLAHAJ_ID.getPath()))));
         Blahaj.storeItem(BEYOU_BLAHAJ_ID, (CuddlyItem) register(BEYOU_BLAHAJ_ID, new CuddlyItem(settings, String.format(TOOLTIP_PRE, BEYOU_BLAHAJ_ID.getPath()))));
         Blahaj.storeItem(BLAVINGAD_ID, (CuddlyItem) register(BLAVINGAD_ID, new ItemContainerCuddlyItem(settings, String.format(TOOLTIP_PRE, BLAVINGAD_ID.getPath()))));
+        Blahaj.storeItem(ORCA_HAJ_ID, (CuddlyItem) register(ORCA_HAJ_ID, new ItemContainerCuddlyItem(settings, String.format(TOOLTIP_PRE, ORCA_HAJ_ID.getPath()))));
         Blahaj.storeItem(BREAD_ID, (CuddlyItem) register(BREAD_ID,new CuddlyItem(settings, null)));
     }
 }

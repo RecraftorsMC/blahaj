@@ -1,6 +1,7 @@
 package mc.recraftors.blahaj.mixin.render;
 
-import mc.recraftors.blahaj.ItemContainerCuddlyItem;
+import mc.recraftors.blahaj.item.CuddlyContainerTooltipComponent;
+import mc.recraftors.blahaj.item.CuddlyContainerTooltipData;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
@@ -15,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public interface TooltipComponentMixin {
     @Inject(method = "of(Lnet/minecraft/client/item/TooltipData;)Lnet/minecraft/client/gui/tooltip/TooltipComponent;", at = @At("HEAD"), cancellable = true)
     private static void ofComponentHeadInjector(TooltipData tooltipData, CallbackInfoReturnable<TooltipComponent> cir) {
-        if (tooltipData instanceof ItemContainerCuddlyItem.CuddlyContainerTooltipData data) {
-            cir.setReturnValue(new ItemContainerCuddlyItem.CuddlyContainerTooltipComponent(data));
+        if (tooltipData instanceof CuddlyContainerTooltipData data) {
+            cir.setReturnValue(new CuddlyContainerTooltipComponent(data));
         }
     }
 }

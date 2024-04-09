@@ -51,7 +51,7 @@
     "blahaj.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.14",
+    "fabricloader": ">=0.15.5",
     "minecraft": ">=1.20.2",
     "unruled_api": "*"
   },

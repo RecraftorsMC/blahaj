@@ -52,6 +52,12 @@ Plushies can be worn in multiple Trinket slots! Each with their own rendering!
 
 <img src="./.pretty_readme/preview_trinkets.png" width="90" />
 
+## [Traveler's Backpack](https://modrinth.com/mod/travelersbackpack)
+
+Now with a custom additional backpack! (no special ability though)
+
+<img src="./.pretty_readme/backpack.png" width="90" />
+
 ## [Not Enough Animations](https://modrinth.com/mod/not-enough-animations)
 
 Sleeping cuddle pose and item cuddling works despite the Not Enough Animations' "no sleeping item" setting.

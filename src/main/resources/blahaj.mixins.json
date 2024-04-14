@@ -32,6 +32,7 @@
     "compat.trinkets.present.PlayerEntityModelMixin",
     "render.AllayEntityMixin",
     "render.BipedEntityModelMixin",
+    "render.HeldItemRendererMixin",
     "render.LivingEntityRendererMixin",
     "render.PlayerEntityRendererMixin",
     "render.TooltipComponentMixin"

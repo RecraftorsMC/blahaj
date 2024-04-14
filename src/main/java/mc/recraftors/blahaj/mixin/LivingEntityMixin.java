@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -80,6 +81,15 @@ public abstract class LivingEntityMixin extends Entity implements HandItemStackP
         if (!(entity instanceof PlayerEntity player)) return;
         if (player.isCreative()) return;
         stack1.tryInsertOrDrop(player, stack2);
+    }
+
+    @Redirect(method = "swapHandStacks", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getEquippedStack(Lnet/minecraft/entity/EquipmentSlot;)Lnet/minecraft/item/ItemStack;"))
+    private ItemStack handSwapStackGetRedirector(LivingEntity instance, EquipmentSlot equipmentSlot) {
+        return switch (equipmentSlot) {
+            case MAINHAND -> blahaj$stackInHandFailSafe(Hand.MAIN_HAND);
+            case OFFHAND -> blahaj$stackInHandFailSafe(Hand.OFF_HAND);
+            default -> ItemStack.EMPTY;
+        };
     }
 
     @SuppressWarnings("ConstantValue")

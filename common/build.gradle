@@ -1,0 +1,25 @@
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "maven.modrinth:unruled-api:${project.unruled_version}"
+
+    modCompileOnly "maven.modrinth:not-enough-animations:${project.notenoughanimations_fabric_version}"
+}
+
+architectury {
+    common("fabric", "forge")
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/${project.mod_id}.accesswidener")
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.mod_id
+            from components.java
+        }
+    }
+    repositories {
+    }
+}

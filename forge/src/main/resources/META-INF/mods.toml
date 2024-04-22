@@ -1,0 +1,24 @@
+modLoader="javafml"
+loaderVersion="[46,)"
+license="GNU GPL 3.0"
+issueTrackerURL="https://github.com/RecraftorsMC/blahaj/issues"
+[[mods]]
+modId="${mod_id}"
+version="${version}"
+displayName="Blahaj"
+displayURL="https://github.com/RecraftorsMC/blahaj"
+logoFile="assets/${mod_id}/icon.png"
+authors="Recraftors Team, Nerjal Nosk"
+description="Expanded port of the Quilt mod BLAHAJ"
+[[dependencies.${mod_id}]]
+   modId="forge"
+   mandatory=true
+   versionRange="[46,)"
+   ordering="NONE"
+   side="BOTH" # the client could very well be vanilla for all we care
+[[dependencies.${mod_id}]]
+   modId="minecraft"
+   mandatory=true
+   versionRange="[1.20,)"
+   ordering="NONE"
+   side="BOTH"

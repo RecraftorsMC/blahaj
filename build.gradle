@@ -1,82 +1,70 @@
 plugins {
-    id 'fabric-loom' version '1.6-SNAPSHOT'
-    id 'maven-publish'
+    id 'architectury-plugin' version '3.4-SNAPSHOT'
+    id 'dev.architectury.loom' version '1.5-SNAPSHOT' apply false
 }
 
-version = project.mod_version
-group = project.maven_group
+architectury {
+    minecraft = rootProject.minecraft_version
+}
 
-repositories {
-    maven {
-		name = "TerraformersMC"
-		url = "https://maven.terraformersmc.com/"
-	}
-	maven {
-		name = "Ladysnake Libs"
-		url = 'https://maven.ladysnake.org/releases'
-	}
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
+subprojects {
+    apply plugin: 'dev.architectury.loom'
+
+    loom {
+        silentMojangMappingsLicense()
+    }
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+        mappings "net.fabricmc:yarn:${project.minecraft_version}+build.${project.yarn_build}:v2"
     }
 }
 
-dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.minecraft_version}+build.${project.yarn_build}"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    modImplementation(include "maven.modrinth:unruled-api:${project.unruled_version}")
-
-    modCompileOnly "dev.emi:trinkets:${project.trinkets_version}"
-    modCompileOnly "maven.modrinth:travelersbackpack:${project.travelersbackpack_version}"
-    modCompileOnly "maven.modrinth:not-enough-animations:${project.notenoughanimations_version}"
-
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.0+1.20.1"
-}
-
-loom {
-    accessWidenerPath = file("src/main/resources/${project.mod_id}.accesswidener")
-}
-
-processResources {
-    inputs.property "version", project.version
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
+allprojects {
+    apply {
+        plugin 'java'
+        plugin 'architectury-plugin'
+        plugin 'maven-publish'
     }
-}
 
-def targetJavaVersion = 17
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        it.options.release = targetJavaVersion
-    }
-}
+    archivesBaseName = "${rootProject.mod_id}-${project.name}+${rootProject.minecraft_version}"
+    version = rootProject.mod_version
+    group = rootProject.maven_group
 
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    archivesBaseName = project.mod_id + "_" + project.minecraft_version
-    withSourcesJar()
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
+    repositories {
+        maven {
+            name = "TerraformersMC"
+            url = "https://maven.terraformersmc.com/"
+        }
+        maven {
+            name = "Ladysnake Libs"
+            url = 'https://maven.ladysnake.org/releases'
+        }
+        maven {
+            name = "Modrinth"
+            url = "https://api.modrinth.com/maven"
         }
     }
-    repositories {
+
+    def targetJavaVersion = 17
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = "UTF-8"
+        if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+            it.options.release = targetJavaVersion
+        }
+    }
+
+    jar {
+        from("LICENSE") {
+            rename { "${it}_${project.archivesBaseName}" }
+        }
+    }
+
+    java {
+        def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
+        withSourcesJar()
     }
 }

@@ -1,0 +1,31 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "mc.recraftors.blahaj.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "plugin": "mc.recraftors.blahaj.mixin.compat.Plugin",
+  "mixins": [
+    "AnvilScreenHandlerMixin",
+    "EnchantmentMixin",
+    "ForgingScreenHandlerMixin",
+    "ItemMixin",
+    "ItemsMixin",
+    "ItemStackMixin",
+    "LivingEntityMixin",
+    "LootManagerMixin",
+    "MinecraftServerMixin"
+  ],
+  "client": [
+    "ClientPlayNetworkHandlerMixin",
+    "compat.notenoughanimations.present.HeldItemHandlerMixin",
+    "compat.notenoughanimations.present.SleepAnimationMixin",
+    "render.AllayEntityMixin",
+    "render.BipedEntityModelMixin",
+    "render.HeldItemRendererMixin",
+    "render.LivingEntityRendererMixin",
+    "render.PlayerEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

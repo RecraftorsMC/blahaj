@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "id": "blahaj",
+  "version": "${version}",
+  "name": "Blahaj",
+  "description": "BLAHAJ",
+  "authors": [
+    {
+      "name": "Recraftors MC",
+      "role": "owner",
+      "contact": {
+        "homepage": "https://github.com/RecraftorsMC"
+      }
+    },
+    {
+      "name": "hibi",
+      "role": "original mod owner",
+      "contact": {
+        "homepage": "https://github.com/Hibiii"
+      }
+    },
+    {
+      "name": "Nerjal Nosk",
+      "role": "maintainer",
+      "contact": {
+        "homepage": "https://github.com/NerjalNosk"
+      }
+    },
+    {
+      "name": "KayoticCarnige",
+      "role": "artist",
+      "contact": {
+        "homepage": "https://github.com/kckarnige"
+      }
+    }
+  ],
+  "contact": {
+    "sources": "https://github.com/RecraftorsMC/blahaj",
+    "homepage": "https://modrinth.com/mod/mcr_blahaj",
+    "issues": "https://github.com/RecraftorsMC/blahaj/issues"
+  },
+  "license": "GPL 3.0",
+  "icon": "assets/blahaj/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "mc.recraftors.blahaj.BlahajFabric"
+    ]
+  },
+  "mixins": [
+    "blahaj.mixins.json",
+    "blahaj-fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.2",
+    "minecraft": "1.20.1",
+    "unruled_api": "*"
+  },
+  "accessWidener": "blahaj.accesswidener"
+}

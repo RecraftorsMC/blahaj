@@ -1,6 +1,7 @@
 package mc.recraftors.blahaj.item;
 
 import mc.recraftors.blahaj.Blahaj;
+import mc.recraftors.blahaj.PreLaunchUtils;
 import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -86,6 +87,7 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
 
     @Override
     public Optional<TooltipData> getTooltipData(ItemStack itemStack) {
+        if (PreLaunchUtils.isForge()) return Optional.empty();
         ItemStack stored = getStoredStack(itemStack);
         if (stored == ItemStack.EMPTY) {
             return Optional.empty();

@@ -58,6 +58,7 @@ public final class ContainedItemStack extends ItemStack implements ItemStackProv
 
     public void dirty() {
         if (this.getHolder() instanceof PlayerEntity player && player.isCreative()) return;
+        if (parent == null) return;
         this.containerItem.extract(this.parent);
         this.containerItem.setContent(this.parent, this.containerItem.getContainedStack(this.parent));
     }
@@ -107,6 +108,9 @@ public final class ContainedItemStack extends ItemStack implements ItemStackProv
     @Override
     public boolean isEmpty() {
         if (current == null) {
+            if (parent == null) {
+                return true; // don't fucking make me, Forge
+            }
             return this.parent.isEmpty();
         }
         return this.current.isEmpty();

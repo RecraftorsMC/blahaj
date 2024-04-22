@@ -7,6 +7,7 @@ import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 public final class PreLaunchUtilsImpl {
 
     public static boolean isModLoaded(String modId) {
@@ -38,5 +39,9 @@ public final class PreLaunchUtilsImpl {
             }
         }
         return false;
+    }
+
+    public static boolean isForge() {
+        return true;
     }
 }

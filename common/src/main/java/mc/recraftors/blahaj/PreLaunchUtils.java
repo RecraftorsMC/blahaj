@@ -17,4 +17,10 @@ public final class PreLaunchUtils {
     public static boolean modHasAuthor(String modId, String author) {
         throw new UnsupportedOperationException();
     }
+
+    @Contract
+    @ExpectPlatform
+    public static boolean isForge() {
+        return false;
+    }
 }

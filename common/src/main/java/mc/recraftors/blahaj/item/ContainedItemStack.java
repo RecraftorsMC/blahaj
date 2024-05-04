@@ -2,7 +2,6 @@ package mc.recraftors.blahaj.item;
 
 import com.google.common.collect.Multimap;
 import mc.recraftors.blahaj.item.nbt.ContainedNbtCompound;
-import mc.recraftors.blahaj.item.nbt.ContainedNbtElement;
 import net.minecraft.block.Block;
 import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.client.item.TooltipContext;

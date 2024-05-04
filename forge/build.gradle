@@ -37,6 +37,9 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${project.mixin_extras_version}"))
+    modImplementation(include("io.github.llamalad7:mixinextras-forge:${project.mixin_extras_version}"))
+
     modImplementation(include("maven.modrinth:unruled-api:${project.unruled_forge_version}"))
 }
 

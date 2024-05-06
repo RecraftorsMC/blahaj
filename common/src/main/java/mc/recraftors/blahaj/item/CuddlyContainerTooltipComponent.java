@@ -9,7 +9,6 @@ import net.minecraft.client.gui.tooltip.BundleTooltipComponent;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.item.ItemStack;
 
-@Environment(EnvType.CLIENT)
 public class CuddlyContainerTooltipComponent implements TooltipComponent {
     private final ItemStack stack;
 

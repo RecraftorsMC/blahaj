@@ -87,7 +87,6 @@ public class ItemContainerCuddlyItem extends CuddlyItem {
 
     @Override
     public Optional<TooltipData> getTooltipData(ItemStack itemStack) {
-        if (PreLaunchUtils.isForge()) return Optional.empty();
         ItemStack stored = getStoredStack(itemStack);
         if (stored == ItemStack.EMPTY) {
             return Optional.empty();

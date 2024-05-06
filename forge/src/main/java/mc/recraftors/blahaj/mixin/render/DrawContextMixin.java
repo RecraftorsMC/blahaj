@@ -1,5 +1,6 @@
 package mc.recraftors.blahaj.mixin.render;
 
+import mc.recraftors.blahaj.PreLaunchUtils;
 import mc.recraftors.blahaj.item.CuddlyContainerTooltipComponent;
 import mc.recraftors.blahaj.item.CuddlyContainerTooltipData;
 import net.minecraft.client.font.TextRenderer;
@@ -31,6 +32,7 @@ public abstract class DrawContextMixin {
             locals = LocalCapture.CAPTURE_FAILEXCEPTION
     )
     private void blahaj$containedItemTooltipDrawInjector(TextRenderer textRenderer, List<Text> text, Optional<TooltipData> data, int x, int y, CallbackInfo ci, List<TooltipComponent> list) {
+        if (PreLaunchUtils.isForge()) return;
         data.ifPresent(e -> {
             if (e instanceof CuddlyContainerTooltipData d) {
                 list.add(1, new CuddlyContainerTooltipComponent(d));

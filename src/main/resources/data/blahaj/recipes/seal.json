@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "B#W"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:light_gray_wool"
+    },
+    "B": {
+      "item": "minecraft:black_wool"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "result": {
+    "item": "blahaj:seal",
+    "count": 1
+  }
+}

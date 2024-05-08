@@ -11,13 +11,14 @@ A Minecraft mod that adds the IKEA BLÅHAJ Soft toy shark and a giant bread pill
 
 ![Players holding Blåhaj](./.pretty_readme/banner.png)
 
-| Item           | Preview                                                          | Recipe                                                                      |
-|----------------|------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| Soft Toy Shark | <img src="./.pretty_readme/preview_blue_shark.png" height=124/>  | ![Crafting recipe for Blåhaj](./.pretty_readme/recipe_blue_shark.png)       |
-| Gray Toy Shark | <img src="./.pretty_readme/preview_gray_shark.png" height=124/>  | ![Crafting recipe for Klappar Haj](./.pretty_readme/trade_gray_shark.png)   |
-| Pink Toy Shark | <img src="./.pretty_readme/preview_trans_shark.png" height=124/> | ![Crafting recipe for Beyou Blåhaj](./.pretty_readme/trade_trans_shark.png) |
-| Bread Pillow   | <img src="./.pretty_readme/preview_bread.png" height=124/>       | ![Crafting recipe for Bread Pillow](./.pretty_readme/recipe_bread.png)      |
-| Blue Whale toy | <img src="./.pretty_readme/preview_blue_whale.png" height=124/>  | ![Crafting recipe for Blavingad](./.pretty_readme/recipe_blue_whale.png)    |
+| Item             | Preview                                                           | Recipe                                                                      |
+|------------------|-------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| Soft Toy Shark   | <img src="./.pretty_readme/preview_blue_shark.png" height=124/>   | ![Crafting recipe for Blåhaj](./.pretty_readme/recipe_blue_shark.png)       |
+| Gray Toy Shark   | <img src="./.pretty_readme/preview_gray_shark.png" height=124/>   | ![Crafting recipe for Klappar Haj](./.pretty_readme/trade_gray_shark.png)   |
+| Pink Toy Shark   | <img src="./.pretty_readme/preview_trans_shark.png" height=124/>  | ![Crafting recipe for Beyou Blåhaj](./.pretty_readme/trade_trans_shark.png) |
+| Bread Pillow     | <img src="./.pretty_readme/preview_bread.png" height=124/>        | ![Crafting recipe for Bread Pillow](./.pretty_readme/recipe_bread.png)      |
+| Blue Whale toy   | <img src="./.pretty_readme/preview_blue_whale.png" height=124/>   | ![Crafting recipe for Blavingad](./.pretty_readme/recipe_blue_whale.png)    |
+| Killer Whale toy | <img src="./.pretty_readme/preview_killer_whale.png" height=124/> | ![Crafting recipe for Orca](./.pretty_readme/recipe_killer_whale.png)       |
 
 ## Extra features
 

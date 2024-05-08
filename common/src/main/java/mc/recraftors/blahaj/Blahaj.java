@@ -31,6 +31,7 @@ public class Blahaj {
     public static final Identifier BLAVINGAD_ID;
     public static final Identifier ORCA_HAJ_ID;
     public static final Identifier BREAD_ID;
+    public static final Identifier SEAL_ID;
     public static final Identifier NON_CONTAINABLE_ITEMS_TAG_ID;
     public static final Identifier BLAVINGAD_USABLE_ITEMS_ID;
     public static final TagKey<Item> NON_CONTAINABLE_ITEMS;
@@ -49,6 +50,7 @@ public class Blahaj {
         BEYOU_BLAHAJ_ID = new Identifier(MOD_ID, "trans_shark");
         BLAVINGAD_ID = new Identifier(MOD_ID, "blue_whale");
         ORCA_HAJ_ID = new Identifier(MOD_ID, "killer_whale");
+        SEAL_ID = new Identifier(MOD_ID, "seal");
         BREAD_ID = new Identifier(MOD_ID, "bread");
         NON_CONTAINABLE_ITEMS_TAG_ID = new Identifier(MOD_ID, "not_containable");
         BLAVINGAD_USABLE_ITEMS_ID = new Identifier(MOD_ID, "blavingad_usable");

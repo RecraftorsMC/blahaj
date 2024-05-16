@@ -54,8 +54,7 @@ public class Blahaj implements ModInitializer {
         NON_CONTAINABLE_ITEMS = TagKey.of(RegistryKeys.ITEM, NON_CONTAINABLE_ITEMS_TAG_ID);
         BLAVINGAD_USABLE_ITEMS = TagKey.of(RegistryKeys.ITEM, BLAVINGAD_USABLE_ITEMS_ID);
 
-        ENABLE_CONTAINER_USE = GameRules.register("blahaj.contained.enable_use", GameRules.Category.PLAYER,
-                UnruledApi.createBoolean(false));
+        ENABLE_CONTAINER_USE = UnruledApi.registerBoolean("blahaj.contained.enable_use", GameRules.Category.PLAYER, false);
 
         ITEM_MAP = new HashMap<>();
     }

@@ -18,6 +18,7 @@
     "MinecraftServerMixin",
     "compat.travelersbackpack.present.ModBlockEntityTypesMixin",
     "compat.travelersbackpack.present.ModBlocksMixin",
+    "compat.travelersbackpack.present.ModItemGroupsMixin",
     "compat.travelersbackpack.present.ModItemsMixin",
     "compat.travelersbackpack.present.ResourceUtilsMixin"
   ],

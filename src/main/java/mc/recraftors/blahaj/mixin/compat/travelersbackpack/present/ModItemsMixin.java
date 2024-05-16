@@ -10,21 +10,16 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
 import java.util.Map;
 
 @Mixin(value = ModItems.class, remap = false)
 public abstract class ModItemsMixin {
-    @Shadow @Final public static List<TravelersBackpackItem> BACKPACKS;
-
     @Unique
     private static TravelersBackpackItem blahajBackpack;
 
@@ -38,6 +33,6 @@ public abstract class ModItemsMixin {
 
     @Inject(method = "addBackpacksToList", at = @At("TAIL"))
     private static void addBackpacksToListTailInjector(CallbackInfo ci) {
-        BACKPACKS.add(blahajBackpack);
+        ModItems.BACKPACKS.add(blahajBackpack);
     }
 }

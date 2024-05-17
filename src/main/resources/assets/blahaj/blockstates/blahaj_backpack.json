@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=south": { "model": "blahaj:block/blahaj_backpack" },
+    "facing=east": { "model": "blahaj:block/blahaj_backpack","y":270 },
+    "facing=west": { "model": "blahaj:block/blahaj_backpack","y":90 },
+    "facing=north": { "model": "blahaj:block/blahaj_backpack","y":180 }
+  }
+}

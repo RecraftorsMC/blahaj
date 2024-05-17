@@ -1,5 +1,9 @@
 {
   "values": [
-    "#blahaj:cuddly_items"
+    "#blahaj:cuddly_items",
+    {
+      "id": "blahaj:blahaj_backpack",
+      "required": false
+    }
   ]
 }

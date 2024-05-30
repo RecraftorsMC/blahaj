@@ -15,6 +15,7 @@ import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,8 +29,10 @@ public class Blahaj implements ModInitializer {
     public static final Identifier ORCA_HAJ_ID;
     public static final Identifier BREAD_ID;
     public static final Identifier SEAL_ID;
+    public static final Identifier CUDDLY_ITEM_TAG_ID;
     public static final Identifier NON_CONTAINABLE_ITEMS_TAG_ID;
     public static final Identifier BLAVINGAD_USABLE_ITEMS_ID;
+    public static final TagKey<Item> CUDDLY_ITEMS;
     public static final TagKey<Item> NON_CONTAINABLE_ITEMS;
     public static final TagKey<Item> BLAVINGAD_USABLE_ITEMS;
 
@@ -49,8 +52,10 @@ public class Blahaj implements ModInitializer {
         ORCA_HAJ_ID = new Identifier(MOD_ID, "killer_whale");
         BREAD_ID = new Identifier(MOD_ID, "bread");
         SEAL_ID = new Identifier(MOD_ID, "seal");
+        CUDDLY_ITEM_TAG_ID = new Identifier(MOD_ID, "cuddly_items");
         NON_CONTAINABLE_ITEMS_TAG_ID = new Identifier(MOD_ID, "not_containable");
         BLAVINGAD_USABLE_ITEMS_ID = new Identifier(MOD_ID, "blavingad_usable");
+        CUDDLY_ITEMS = TagKey.of(RegistryKeys.ITEM, CUDDLY_ITEM_TAG_ID);
         NON_CONTAINABLE_ITEMS = TagKey.of(RegistryKeys.ITEM, NON_CONTAINABLE_ITEMS_TAG_ID);
         BLAVINGAD_USABLE_ITEMS = TagKey.of(RegistryKeys.ITEM, BLAVINGAD_USABLE_ITEMS_ID);
 
@@ -111,7 +116,11 @@ public class Blahaj implements ModInitializer {
     }
 
     public static boolean holdsOnlyCuddlyItem(LivingEntity entity) {
-        return (entity.getMainHandStack().getItem() instanceof CuddlyItem && entity.getOffHandStack().isEmpty() ||
-                entity.getOffHandStack().getItem() instanceof CuddlyItem && entity.getMainHandStack().isEmpty());
+        return (isCuddly(entity.getMainHandStack()) && entity.getOffHandStack().isEmpty() ||
+                isCuddly(entity.getOffHandStack()) && entity.getMainHandStack().isEmpty());
+    }
+
+    public static boolean isCuddly(ItemStack stack) {
+        return stack.isIn(CUDDLY_ITEMS) || stack.getItem() instanceof CuddlyItem;
     }
 }

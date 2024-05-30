@@ -15,6 +15,7 @@
     "LootManagerMixin",
     "LootTableMixin",
     "MinecraftServerMixin",
+    "compat.immersive_melodies.present.ItemsMixin",
     "compat.travelersbackpack.present.ModBlockEntityTypesMixin",
     "compat.travelersbackpack.present.ModBlocksMixin",
     "compat.travelersbackpack.present.ModItemsMixin",

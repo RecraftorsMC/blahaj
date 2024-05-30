@@ -18,6 +18,8 @@
 
 	"block.blahaj.blahaj_backpack": "Blahaj Traveler's Backpack",
 
+	"item.blahaj.blahaj_bass": "Blahaj Bass",
+
 	"gamerule.blahaj.contained.enable_use": "Enable using contained items",
 	"gamerule.blahaj.contained.enable_use.description": "§6⚠ Experimental§r and likely broken, use at your own risks. Relies on the blahaj:blavingad_usable item tag"
 }

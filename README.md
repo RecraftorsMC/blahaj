@@ -19,14 +19,20 @@ A Minecraft mod that adds the IKEA BLÅHAJ Soft toy shark and a giant bread pill
 | Bread Pillow     | <img src="./.pretty_readme/preview_bread.png" height=124/>        | ![Crafting recipe for Bread Pillow](./.pretty_readme/recipe_bread.png)      |
 | Blue Whale toy   | <img src="./.pretty_readme/preview_blue_whale.png" height=124/>   | ![Crafting recipe for Blavingad](./.pretty_readme/recipe_blue_whale.png)    |
 | Killer Whale toy | <img src="./.pretty_readme/preview_killer_whale.png" height=124/> | ![Crafting recipe for Orca](./.pretty_readme/recipe_killer_whale.png)       |
+| Seal soft toy    | <img src="./.pretty_readme/preview_seal.png" height=124/>         | ![Crafting recipe for Seal](./.pretty_readme/recipe_seal.png)               |
 
 ## Extra features
 
-Sleeping cuddles!
+### Sleeping cuddles!
 
 | Seen from outside                                  | In first-player vision                            |
 |----------------------------------------------------|---------------------------------------------------|
 | <img src="./.pretty_readme/preview_sleep_out.png"> | <img src="./.pretty_readme/preview_sleep_in.png"> |
+
+### G@-1$fa3%?;
+
+A feature has secretly made its way into the mod, but does not wish to be found out.
+It is out there, but will not make it easy to obtain it.
 
 ## Experimental features
 
@@ -51,19 +57,31 @@ testing anything risky!
 
 Plushies can be worn in multiple Trinket slots! Each with their own rendering!
 
-<img src="./.pretty_readme/preview_trinkets.png" width="90" />
+<img src="./.pretty_readme/preview_trinkets.png" width="90" alt="Showcase of Blahaj items worn as trinkets" />
 
 ## [Traveler's Backpack](https://modrinth.com/mod/travelersbackpack)
 
 Now with a custom additional backpack! (no special ability though)
 
-<img src="./.pretty_readme/backpack.png" width="90" />
+<img src="./.pretty_readme/backpack.png" width="90" alt="Blahaj backpack image" />
 
 ## [Not Enough Animations](https://modrinth.com/mod/not-enough-animations)
 
 Sleeping cuddle pose and item cuddling works despite the Not Enough Animations' "no sleeping item" setting.
 
 This does not force the setting or temporarily changes it! The setting is only ignored for plushies
+
+## [Immersive Melodies](https://modrinth.com/mod/immersive-melodies)
+
+_Only available in 1.20.1 to this day_
+
+Adds a brand-new instrument when Immersive Melodies is loaded.
+
+<details><summary><b>Recipe and showcase</b></summary>
+<img src="./.pretty_readme/recipe_bass.png" height=124 alt="Blahaj Bass recipe" />
+
+<iframe width=560 height=315 src="https://www.youtube.com/embed/_z-3QsTLTgU" title="Showcase video player" frameborder="0" allow="accelerometer; encrypted-media; web-share" allowfullscreen></iframe>
+</details>
 
 ---
 

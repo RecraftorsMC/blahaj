@@ -8,7 +8,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.*;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.TradeOffer;
@@ -17,6 +18,7 @@ import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.GameRules;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -41,6 +43,7 @@ public class Blahaj implements ModInitializer {
     public static final String MOD_ID;
     public static final String TOOLTIP_PRE;
     private static final Map<Identifier, CuddlyItem> ITEM_MAP;
+    private static final Random RANDOM;
 
     static {
         MOD_ID = "blahaj";
@@ -63,6 +66,7 @@ public class Blahaj implements ModInitializer {
         ENABLE_CONTAINER_USE = UnruledApi.registerBoolean("blahaj.contained.enable_use", GameRules.Category.PLAYER, false);
 
         ITEM_MAP = new HashMap<>();
+        RANDOM = new Random();
     }
 
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
@@ -123,5 +127,16 @@ public class Blahaj implements ModInitializer {
 
     public static boolean isCuddly(ItemStack stack) {
         return stack.isIn(CUDDLY_ITEMS) || stack.getItem() instanceof CuddlyItem;
+    }
+
+    public static boolean isHidden(Identifier identifier) {
+        return identifier.equals($k_O$8);
+    }
+
+    public static @Nullable Item randomItem(TagKey<Item> tag) {
+        Optional<RegistryEntryList.Named<Item>> named = Registries.ITEM.getEntryList(tag);
+        if (named.isEmpty()) return null;
+        int i = named.get().size();
+        return named.get().get(RANDOM.nextInt(i)).comp_349();
     }
 }

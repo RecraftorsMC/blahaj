@@ -15,7 +15,6 @@ import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,6 +28,7 @@ public class Blahaj implements ModInitializer {
     public static final Identifier ORCA_HAJ_ID;
     public static final Identifier BREAD_ID;
     public static final Identifier SEAL_ID;
+    public static final Identifier $k_O$8;
     public static final Identifier CUDDLY_ITEM_TAG_ID;
     public static final Identifier NON_CONTAINABLE_ITEMS_TAG_ID;
     public static final Identifier BLAVINGAD_USABLE_ITEMS_ID;
@@ -52,6 +52,7 @@ public class Blahaj implements ModInitializer {
         ORCA_HAJ_ID = new Identifier(MOD_ID, "killer_whale");
         BREAD_ID = new Identifier(MOD_ID, "bread");
         SEAL_ID = new Identifier(MOD_ID, "seal");
+        $k_O$8 = new Identifier(MOD_ID, "glitch");
         CUDDLY_ITEM_TAG_ID = new Identifier(MOD_ID, "cuddly_items");
         NON_CONTAINABLE_ITEMS_TAG_ID = new Identifier(MOD_ID, "not_containable");
         BLAVINGAD_USABLE_ITEMS_ID = new Identifier(MOD_ID, "blavingad_usable");

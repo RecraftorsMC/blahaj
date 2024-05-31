@@ -12,6 +12,8 @@
 	"item.blahaj.seal": "Seal plushie",
 	"item.blahaj.seal.tooltip": "a.k.a. Sorensen",
 	"item.blahaj.bread": "Bread Pillow",
+	"item.blahaj.glitch": "§kGlitch Shark",
+	"item.blahaj.glitch.tooltip": "a.k.a Glitched Blahaj. §kNo Signal",
 
 	"tooltip.blahaj.owner.craft": "Crafted by %s",
 	"tooltip.blahaj.owner.rename": "%s of %s",

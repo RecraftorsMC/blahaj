@@ -19,7 +19,7 @@ A Minecraft mod that adds the IKEA BLÅHAJ Soft toy shark and a giant bread pill
 | Bread Pillow     | <img src="./.pretty_readme/preview_bread.png" height=124/>        | ![Crafting recipe for Bread Pillow](./.pretty_readme/recipe_bread.png)      |
 | Blue Whale toy   | <img src="./.pretty_readme/preview_blue_whale.png" height=124/>   | ![Crafting recipe for Blavingad](./.pretty_readme/recipe_blue_whale.png)    |
 | Killer Whale toy | <img src="./.pretty_readme/preview_killer_whale.png" height=124/> | ![Crafting recipe for Orca](./.pretty_readme/recipe_killer_whale.png)       |
-| Seal soft toy    | <img src="./.pretty_readme/preview_seal.png" height=124/>         | ![Crafting recipe for Seal](./.pretty_readme/recipe_seal.png)               |
+| Seal soft toy    | <img src="./.pretty_readme/preview_seal.png" height=124/>         | <img src="./.pretty_readme/recipe_seal.png" height=124/>                    |
 
 ## Extra features
 
@@ -80,7 +80,7 @@ Adds a brand-new instrument when Immersive Melodies is loaded.
 <details><summary><b>Recipe and showcase</b></summary>
 <img src="./.pretty_readme/recipe_bass.png" height=124 alt="Blahaj Bass recipe" />
 
-<iframe width=560 height=315 src="https://www.youtube.com/embed/_z-3QsTLTgU" title="Showcase video player" frameborder="0" allow="accelerometer; encrypted-media; web-share" allowfullscreen></iframe>
+[Showcase video](https://www.youtube.com/watch?v=_z-3QsTLTgU)
 </details>
 
 ---

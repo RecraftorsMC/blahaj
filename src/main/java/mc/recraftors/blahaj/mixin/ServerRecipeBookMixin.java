@@ -12,7 +12,7 @@ import java.util.Collection;
 
 @Mixin(ServerRecipeBook.class)
 public class ServerRecipeBookMixin {
-    @ModifyVariable(method = "unlockRecipes", argsOnly = true, at = @At("STORE"))
+    @ModifyVariable(method = "unlockRecipes", argsOnly = true, at = @At("HEAD"))
     private Collection<Recipe<?>> glitchNoUnlock(Collection<Recipe<?>> collection) {
         collection = new ArrayList<>(collection);
         collection.removeIf(r -> Blahaj.isHidden(r.getId()));

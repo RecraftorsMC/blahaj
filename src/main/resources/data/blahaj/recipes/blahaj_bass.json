@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  I",
+    "WN ",
+    "BW "
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "W": {
+      "item": "minecraft:light_blue_wool"
+    },
+    "N": {
+      "item": "minecraft:note_block"
+    },
+    "B": {
+      "item": "blahaj:blue_shark"
+    }
+  },
+  "result": {
+    "item": "blahaj:blahaj_bass"
+  }
+}

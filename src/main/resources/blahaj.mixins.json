@@ -16,6 +16,7 @@
     "LootManagerMixin",
     "LootTableMixin",
     "MinecraftServerMixin",
+    "ServerRecipeBookMixin",
     "compat.travelersbackpack.present.ModBlockEntityTypesMixin",
     "compat.travelersbackpack.present.ModBlocksMixin",
     "compat.travelersbackpack.present.ModItemGroupsMixin",

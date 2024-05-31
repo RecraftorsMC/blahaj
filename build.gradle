@@ -33,6 +33,7 @@ dependencies {
     modCompileOnly "maven.modrinth:travelersbackpack:${project.travelersbackpack_version}"
     modCompileOnly "maven.modrinth:not-enough-animations:${project.notenoughanimations_version}"
     modCompileOnly "maven.modrinth:immersive-melodies:${project.immersivemelodies_version}"
+    modCompileOnly "maven.modrinth:andromeda:${project.andromeda_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.58.0+1.19"
 }

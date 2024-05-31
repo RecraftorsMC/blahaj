@@ -8,32 +8,26 @@ import net.minecraft.item.Item;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
+import net.minecraft.util.registry.Registry;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 @Mixin(RecipeManager.class)
 public class RecipeManagerMixin {
-    @Shadow private Map<RecipeType<?>, Map<Identifier, Recipe<?>>> recipes;
-
-    @Unique private static Set<Item> WOOL = new HashSet<>();
 
     @Unique private static JsonObject randomBlahajGlitchRecipe() {
         JsonObject main = new JsonObject();
-        Identifier type = Registries.RECIPE_TYPE.getId(RecipeType.CRAFTING);
+        Identifier type = Registry.RECIPE_TYPE.getId(RecipeType.CRAFTING);
         if (type == null) {
             return null;
         }
@@ -60,7 +54,7 @@ public class RecipeManagerMixin {
         JsonObject key = new JsonObject();
         map.forEach((k, i) -> {
             JsonObject o = new JsonObject();
-            Identifier id = Registries.ITEM.getId(i);
+            Identifier id = Registry.ITEM.getId(i);
             Blahaj.LOGGER.warn("## {} -> {}", k, id);
             o.addProperty("item", id.toString());
             key.add(k, o);

@@ -15,16 +15,16 @@
     "LootTableMixin",
     "RecipeManagerMixin",
     "ServerRecipeBookMixin",
-    "registration.ItemGroupsMixin",
-    "registration.ItemsMixin",
-    "registration.MinecraftServerMixin",
     "compat.andromeda.present.AutoAdvGenerationMixin",
     "compat.immersive_melodies.present.ItemsMixin",
     "compat.travelersbackpack.present.ModBlockEntityTypesMixin",
     "compat.travelersbackpack.present.ModBlocksMixin",
     "compat.travelersbackpack.present.ModItemGroupsMixin",
     "compat.travelersbackpack.present.ModItemsMixin",
-    "compat.travelersbackpack.present.ResourceUtilsMixin"
+    "compat.travelersbackpack.present.ResourceUtilsMixin",
+    "registration.ItemGroupsMixin",
+    "registration.ItemsMixin",
+    "registration.MinecraftServerMixin"
   ],
   "client": [
     "ClientPlayNetworkHandlerMixin",

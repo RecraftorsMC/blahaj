@@ -1,12 +1,11 @@
 package mc.recraftors.blahaj.item;
 
+import mc.recraftors.blahaj.Blahaj;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -32,26 +31,21 @@ public class CuddlyItem extends Item {
             tooltip.add(this.subtitle);
         }
         if (stack.hasNbt()) {
-            NbtCompound nbt = stack.getNbt();
-            String owner = nbt.getString(OWNER_KEY);
-            if(owner.isEmpty() || owner.isBlank()) {
-                return;
-            }
-            if (stack.hasCustomName()) {
-                tooltip.add(Text.translatable(TOOL_KEY_RENAME, getName(), Text.of(owner)).formatted(Formatting.GRAY));
-            } else {
-                tooltip.add(Text.translatable(TOOL_KEY_OWNER, Text.of(owner)).formatted(Formatting.GRAY));
-            }
+            Blahaj.getOwnerName(stack, world).ifPresent(name -> {
+                if (name.isBlank()) return;
+                if (stack.hasCustomName()) {
+                    tooltip.add(Text.translatable(TOOL_KEY_RENAME, getName(), Text.of(name)));
+                } else {
+                    tooltip.add(Text.translatable(TOOL_KEY_OWNER, Text.of(name)));
+                }
+            });
         }
     }
 
     @Override
     public void onCraft(ItemStack stack, World world, PlayerEntity player) {
         super.onCraft(stack, world, player);
-        if (player != null) {
-            stack.setSubNbt(OWNER_KEY, NbtString.of(player.getName().getString()));
-        }
-        super.onCraft(stack, world, player);
+        Blahaj.setOwner(stack, player);
     }
 
     @Override

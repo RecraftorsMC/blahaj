@@ -1,4 +1,4 @@
-package mc.recraftors.blahaj.mixin;
+package mc.recraftors.blahaj.mixin.registration;
 
 import mc.recraftors.blahaj.Blahaj;
 import net.minecraft.server.MinecraftServer;

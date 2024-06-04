@@ -187,30 +187,43 @@
 		}
 	},
 	"groups": [
-		0,
 		{
-			"name": "poofs",
-			"origin": [8, 8, 8],
+			"name": "body",
+			"origin": [0, -1, 0],
 			"color": 0,
-			"children": [1, 2, 3, 4]
-		},
-		{
-			"name": "tail",
-			"origin": [8, 8, 8],
-			"color": 0,
-			"children": [5, 6, 7]
-		},
-		{
-			"name": "face",
-			"origin": [8, 8, 8],
-			"color": 0,
-			"children": [8]
-		},
-		{
-			"name": "flippers",
-			"origin": [8, 8, 8],
-			"color": 0,
-			"children": [9, 10]
+			"children": [
+				0,
+				{
+					"name": "poofs",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [1, 2, 3, 4]
+				},
+				{
+					"name": "tail",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [5, 6, 7]
+				},
+				{
+					"name": "face",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [8]
+				},
+				{
+					"name": "flipper_left",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [9]
+				},
+				{
+					"name": "flipper_right",
+					"origin": [0, -1, 0],
+					"color": 0,
+					"children": [10]
+				}
+			]
 		}
 	]
 }

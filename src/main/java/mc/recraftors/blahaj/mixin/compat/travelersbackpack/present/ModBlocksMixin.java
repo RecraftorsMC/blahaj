@@ -23,6 +23,7 @@ public abstract class ModBlocksMixin {
     @Inject(method = "init", at = @At("TAIL"))
     private static void initInjector(CallbackInfo ci) {
         Map<String, Object> modMap = DataHolder.modMap(TravelersBackpack.MODID);
-        modMap.put("block", Registry.register(Registries.BLOCK, new Identifier(Blahaj.MOD_ID, "blahaj_backpack"), new TravelersBackpackBlock(FabricBlockSettings.create().mapColor(MapColor.BLUE).sounds(BlockSoundGroup.WOOL))));
+        modMap.put("block", Registry.register(Registries.BLOCK, new Identifier(Blahaj.MOD_ID, "blahaj_backpack"),
+                new TravelersBackpackBlock(FabricBlockSettings.create().mapColor(MapColor.BLUE).sounds(BlockSoundGroup.WOOL))));
     }
 }
